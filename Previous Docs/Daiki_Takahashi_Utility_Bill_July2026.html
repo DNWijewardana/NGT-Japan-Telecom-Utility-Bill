@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ご利用料金のご案内兼請求書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #004c8c;
+    --secondary: #e6f0fa;
+    --text-main: #222;
+    --text-light: #555;
+    --border-color: #000;
+    --font-main: 'Noto Sans JP', sans-serif;
+    --font-serif: 'Noto Serif JP', serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #555;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: white;
+    padding: 10mm 15mm;
+    font-family: var(--font-main);
+    color: var(--text-main);
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  
+  /* Form CSS - Hidden on print */
+  .control-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 280px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    font-family: sans-serif;
+  }
+  .control-panel label { display: block; margin-top: 8px; font-size: 10px; font-weight: bold; color: #333; }
+  .control-panel input { width: 100%; padding: 4px; margin-top: 2px; border: 1px solid #aaa; border-radius: 3px; font-size: 11px; }
+  .control-panel button { margin-top: 12px; width: 100%; padding: 8px; background: #004c8c; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 12px; }
+  .control-panel button:hover { background: #003b73; }
+  
+  @media print {
+    body { background: white; padding: 0; display: block; }
+    .page { box-shadow: none; width: 100%; height: 100%; padding: 10mm 15mm; margin: 0; overflow: visible; }
+    .no-print { display: none !important; }
+    @page { size: A4 portrait; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CONTROL PANEL -->
+<div class="no-print control-panel">
+  <h3 style="margin-top:0; margin-bottom: 5px; color: #004c8c; font-size: 14px;">Document Settings</h3>
+  <div style="font-size: 9px; color: #666; margin-bottom: 10px;">Fill details and randomize to generate mathematically correct data.</div>
+  
+  <label>Postal Code</label>
+  <input type="text" id="in-postal" value="491-0001">
+  
+  <label>Address (JA)</label>
+  <input type="text" id="in-address" value="愛知県一宮市瀬部兜4-2">
+  <label>Address (EN)</label>
+  <input type="text" id="in-address-en" value="4-2 Kabuto, Sebe, Ichinomiya City, Aichi Prefecture">
+  
+  <label>Company Name (JA)</label>
+  <input type="text" id="in-company" value="ダイキ・ファッション・サガ">
+  <label>Company Name (EN)</label>
+  <input type="text" id="in-company-en" value="Daiki Fashion Saga">
+  
+  <label>Customer Name (JA)</label>
+  <input type="text" id="in-name" value="高橋 大輝">
+  <label>Customer Name (EN)</label>
+  <input type="text" id="in-name-en" value="Daiki Takahashi">
+
+  <label>Billing Period</label>
+  <div style="display: flex; gap: 5px;">
+    <input type="number" id="in-year" value="2026" style="width: 60%;" placeholder="Year (e.g. 2026)">
+    <input type="number" id="in-month" value="7" min="1" max="12" style="width: 40%;" placeholder="Month">
+  </div>
+  
+  <button onclick="randomizeData()">Randomize All Details</button>
+</div>
+
+<div class="page">
+  <!-- HEADER -->
+  <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+    <!-- Left Window Address Block -->
+    <div style="width: 85mm; padding-top: 2mm;">
+      <div class="out-postal" style="font-size: 13px; letter-spacing: 2px; margin-bottom: 2px;">〒491-0001</div>
+      <div class="out-address" style="font-size: 11px; line-height: 1.4;">愛知県一宮市瀬部兜4-2</div>
+      <div class="out-address-en" style="font-size: 8px; color: #555; margin-bottom: 3px; line-height: 1.1;">4-2 Kabuto, Sebe, Ichinomiya City, Aichi Prefecture</div>
+      <div class="out-company" style="font-size: 11px; margin-top: 2px; color: var(--text-light);">ダイキ・ファッション・サガ</div>
+      <div class="out-company-en" style="font-size: 8px; color: #777; margin-bottom: 5px;">Daiki Fashion Saga</div>
+      <div style="font-size: 16px; font-weight: 700; border-bottom: 1px solid #000; padding-bottom: 2px; display: inline-block; min-width: 80%;">
+        <span class="out-name">高橋 大輝</span> <span style="font-size: 12px; margin-left: 5px; font-weight: normal;">様</span>
+        <div class="out-name-en" style="font-size: 9px; font-weight: normal; color: #555; margin-top: 2px;">Daiki Takahashi</div>
+      </div>
+      <div style="font-size: 9px; color: var(--text-light); margin-top: 6px; line-height: 1.4;">
+        いつも弊社サービスをご利用いただき誠にありがとうございます。<br>
+        下記の通りご請求申し上げます。
+      </div>
+    </div>
+    
+    <!-- Right Company Info -->
+    <div style="width: 95mm; text-align: right;">
+      <div style="margin-bottom: 3px; display: flex; justify-content: flex-end;">
+        <svg width="200" height="40" viewBox="0 0 220 45" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#003b73" />
+              <stop offset="100%" stop-color="#0074e4" />
+            </linearGradient>
+          </defs>
+          <circle cx="22" cy="22" r="16" fill="url(#logoGrad)" />
+          <path d="M 6 22 Q 22 2 38 22 Q 22 42 6 22" fill="none" stroke="#fff" stroke-width="1.5" />
+          <path d="M 12 12 Q 22 18 32 12" fill="none" stroke="#fff" stroke-width="1.5" />
+          <path d="M 12 32 Q 22 26 32 32" fill="none" stroke="#fff" stroke-width="1.5" />
+          <text x="50" y="20" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="16" fill="#003b73" letter-spacing="2">NGT</text>
+          <text x="50" y="37" font-family="'Noto Sans JP', sans-serif" font-weight="700" font-size="14" fill="#333">日本グローバルテレコム</text>
+        </svg>
+      </div>
+      <div style="font-size: 10px; line-height: 1.4; color: var(--text-main);">
+        <strong>日本グローバルテレコム株式会社</strong><br>
+        〒105-0014 東京都港区芝3-2-1<br>
+        <div id="out-t-number" style="display: inline-block; border: 1px solid #ccc; padding: 1px 4px; margin: 3px 0; background: #f9f9f9; font-size: 9px;">
+          適格請求書発行事業者登録番号：T8010401085294
+        </div><br>
+        <span id="out-support-phone">【お客さまセンター】 0120-802-539</span><br>
+        <span style="color: var(--text-light); font-size: 9px;">受付時間：9:00〜18:00 (年中無休)</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- TITLE -->
+  <div style="text-align: center; margin: 0 0 5px 0;">
+    <h1 style="font-size: 16px; font-weight: 700; color: var(--primary); letter-spacing: 4px; margin: 0; border-bottom: 2px solid var(--primary); display: inline-block; padding: 0 30px 4px 30px;">
+      ご利用料金のご案内 兼 請求書
+    </h1>
+  </div>
+  
+  <!-- SUMMARY BOXES -->
+  <div style="display: flex; justify-content: space-between; height: 24mm; margin-bottom: 5px;">
+    <!-- Details Table -->
+    <div style="width: 55%;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+        <tr>
+          <th style="background: var(--secondary); border: 1px solid var(--border-color); padding: 3px 4px; width: 35%; text-align: left; color: var(--primary);">お客様番号</th>
+          <td class="out-cust-num" style="border: 1px solid var(--border-color); padding: 3px 4px; font-weight: 700; font-size: 12px; text-align: center; letter-spacing: 1px;">0586-64-8302</td>
+        </tr>
+        <tr>
+          <th style="background: var(--secondary); border: 1px solid var(--border-color); padding: 3px 4px; text-align: left; color: var(--primary);">ご請求年月</th>
+          <td class="out-bill-period" style="border: 1px solid var(--border-color); padding: 3px 4px; text-align: center; font-weight: 700;">令和8年7月分 <span style="font-size: 9px; font-weight: normal; margin-left: 5px;">(2026年7月)</span></td>
+        </tr>
+        <tr>
+          <th style="background: var(--secondary); border: 1px solid var(--border-color); padding: 3px 4px; text-align: left; color: var(--primary);">お支払期限</th>
+          <td class="out-due-date" style="border: 1px solid var(--border-color); padding: 3px 4px; text-align: center; color: #d32f2f; font-weight: 700; font-size: 12px;">令和8年8月31日</td>
+        </tr>
+      </table>
+      <div class="out-issue-date" style="font-size: 9px; color: var(--text-light); margin-top: 3px; text-align: right;">
+        ※ 発行日：令和8年8月12日
+      </div>
+    </div>
+    
+    <!-- Total Box -->
+    <div style="width: 40%;">
+      <div style="border: 2px solid var(--primary); border-radius: 4px; height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+        <div style="background: var(--primary); color: white; text-align: center; font-size: 11px; font-weight: 700; padding: 2px;">
+          今回ご請求金額
+        </div>
+        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fafcff;">
+          <span style="font-size: 16px; margin-right: 5px; margin-top: 3px;">¥</span>
+          <span class="amt-total" style="font-size: 26px; font-weight: 700; font-family: var(--font-serif); letter-spacing: 1px;">13,962</span>
+        </div>
+        <div style="text-align: right; padding: 1px 5px; font-size: 8px; color: var(--text-light); background: #fafcff;">
+          (消費税等込)
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- DETAILS BREAKDOWN -->
+  <div style="margin-bottom: 5px;">
+    <div style="font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 3px; display: flex; align-items: center;">
+      <span style="display: inline-block; width: 4px; height: 11px; background: var(--primary); margin-right: 5px;"></span>
+      ご請求内訳
+    </div>
+    <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+      <thead>
+        <tr style="background: var(--secondary); border-top: 2px solid var(--primary); border-bottom: 1px solid var(--primary);">
+          <th style="padding: 3px 5px; text-align: left; width: 55%; color: var(--primary);">ご利用項目</th>
+          <th style="padding: 3px 5px; text-align: center; width: 25%; color: var(--primary);">ご利用期間・区分</th>
+          <th style="padding: 3px 5px; text-align: right; width: 20%; color: var(--primary);">金額 (円)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Section 1 -->
+        <tr>
+          <td colspan="3" style="padding: 5px 5px 2px 5px; font-weight: 700; color: #0056b3; border-bottom: 1px solid #ccc;">【インターネット接続サービス】</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">光回線利用料 (ファミリータイプ)</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">7月分</td>
+          <td id="amt-internet" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">5,350</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">プロバイダ接続料</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">7月分</td>
+          <td id="amt-isp" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">1,100</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px;">無線LANルーターレンタル料</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; color: var(--text-light);">7月分</td>
+          <td id="amt-router" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif);">440</td>
+        </tr>
+        
+        <!-- Section 2 -->
+        <tr>
+          <td colspan="3" style="padding: 5px 5px 2px 5px; font-weight: 700; color: #0056b3; border-bottom: 1px solid #ccc; border-top: 1px solid #eee;">【電話・モバイルサービス】</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">ひかり電話 基本料金</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">7月分</td>
+          <td id="amt-phone" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">550</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">スマートフォン (5G使い放題プラン)</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">7月分</td>
+          <td id="amt-mobile" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">3,150</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">通話料 (国内固定電話宛)</td>
+          <td style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">-</td>
+          <td id="amt-call-dom" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">680</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">通話料 (携帯電話宛)</td>
+          <td style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">-</td>
+          <td id="amt-call-mob" style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">1,420</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px; border-bottom: 1px dashed #eee;">ユニバーサルサービス料</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; border-bottom: 1px dashed #eee; color: var(--text-light);">7月分</td>
+          <td style="padding: 2px 5px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #eee;">2</td>
+        </tr>
+        <tr>
+          <td style="padding: 2px 5px 2px 15px;">電話リレーサービス料</td>
+          <td class="out-bill-month-short" style="padding: 2px 5px; text-align: center; color: var(--text-light);">7月分</td>
+          <td style="padding: 2px 5px; text-align: right; font-family: var(--font-serif);">1</td>
+        </tr>
+        
+        <!-- Subtotals -->
+        <tr style="border-top: 1px solid #aaa; background: #fdfdfd;">
+          <th style="padding: 3px 5px; text-align: right; font-weight: normal;" colspan="2">小計 (税抜)</th>
+          <td class="amt-subtotal" style="padding: 3px 5px; text-align: right; font-family: var(--font-serif); font-weight: 700;">12,693</td>
+        </tr>
+        <tr style="background: #fdfdfd;">
+          <th style="padding: 3px 5px; text-align: right; font-weight: normal;" colspan="2">消費税等 (10%)</th>
+          <td class="amt-tax" style="padding: 3px 5px; text-align: right; font-family: var(--font-serif); font-weight: 700;">1,269</td>
+        </tr>
+        <tr style="border-top: 2px solid var(--primary); background: #f0f7ff;">
+          <th style="padding: 5px 5px; text-align: right; font-weight: 700; color: var(--primary); letter-spacing: 1px;" colspan="2">ご請求金額 合計</th>
+          <td class="amt-total" style="padding: 5px 5px; text-align: right; font-family: var(--font-serif); font-weight: 700; font-size: 12px; color: var(--primary);">13,962</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align: right; font-size: 9px; color: var(--text-light); margin-top: 3px;">
+      【税率別内訳】 10%対象: ¥<span class="amt-subtotal">12,693</span> (消費税 ¥<span class="amt-tax">1,269</span>)
+    </div>
+  </div>
+  
+  <!-- NOTICES -->
+  <div style="border: 1px solid #ccc; background: #f5f5f5; padding: 5px 8px; border-radius: 4px; font-size: 9px; line-height: 1.4; color: #444; margin-bottom: 3px;">
+    <strong>【お客さまへのお知らせ】</strong><br>
+    ・平素は日本グローバルテレコムをご利用いただき、誠にありがとうございます。<br>
+    ・2026年10月より、一部オプションサービスの提供条件が変更となります。詳細は当社Webサイトをご確認ください。<br>
+    ・本ご案内は、適格請求書（インボイス）としてご利用いただけます。消費税の仕入税額控除の適用を受けるために必要となりますので、大切に保管してください。
+  </div>
+  
+  <!-- PERFORATION LINE -->
+  <div style="position: relative; height: 5mm; display: flex; align-items: center;">
+    <div style="width: 100%; border-top: 1px dashed #666; position: relative;">
+      <div style="position: absolute; top: -7px; left: 20px; background: white; padding: 0 10px; font-size: 9px; color: #666;">
+        <span style="font-size: 11px; margin-right: 5px;">✂</span> キリトリ線（ここから切り取ってお出しください）
+      </div>
+    </div>
+  </div>
+  
+  <!-- PAYMENT SLIP -->
+  <div style="display: flex; justify-content: space-between; height: 64mm;">
+    
+    <!-- LEFT: Receipt -->
+    <div style="width: 55mm; border: 1px solid #000; box-sizing: border-box; display: flex; flex-direction: column; position: relative;">
+      <div style="text-align: center; border-bottom: 1px solid #000; font-size: 10px; font-weight: 700; padding: 4px 0; background: #f0f0f0;">
+        払込受領証 (お客さま控)
+      </div>
+      <div style="padding: 5px; flex-grow: 1; display: flex; flex-direction: column;">
+        <div style="margin-bottom: 4px;">
+          <div style="font-size: 8px; color: #555;">お客様番号</div>
+          <div class="out-cust-num" style="font-size: 10px; font-weight: 700; text-align: right; border-bottom: 1px dotted #999;">0586-64-8302</div>
+        </div>
+        <div style="margin-bottom: 4px;">
+          <div style="font-size: 8px; color: #555;">ご請求年月</div>
+          <div class="out-bill-period-short" style="font-size: 10px; text-align: right; border-bottom: 1px dotted #999;">令和8年7月分</div>
+        </div>
+        <div style="margin-bottom: 5px;">
+          <div style="font-size: 8px; color: #555;">お支払期限</div>
+          <div class="out-due-date" style="font-size: 10px; text-align: right; border-bottom: 1px dotted #999;">令和8年8月31日</div>
+        </div>
+        
+        <div style="margin-top: 4px; border-bottom: 2px solid #000; padding-bottom: 2px;">
+          <div style="font-size: 9px; font-weight: 700;">受領金額 (税込)</div>
+          <div style="font-size: 15px; font-weight: 700; text-align: right; font-family: var(--font-serif);"><span style="font-size: 11px; font-weight: normal; margin-top: 1px;">¥</span><span class="amt-total">13,962</span></div>
+        </div>
+        
+        <div style="margin-top: auto; font-size: 7px; color: #666; line-height: 1.2;">
+          ※この受領証は支払いの証明となりますので、大切に保管してください。
+        </div>
+      </div>
+    </div>
+    
+    <!-- RIGHT: Payment Handling Slip -->
+    <div style="width: 122mm; border: 1px solid #000; box-sizing: border-box; display: flex; flex-direction: column;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #000; padding: 3px 10px; background: #f0f0f0;">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 5px;">払込取扱票</div>
+        <div style="font-size: 8px;">(コンビニエンスストア専用)</div>
+      </div>
+      
+      <!-- Barcode Box -->
+      <div style="text-align: center; padding: 4px 0; border-bottom: 1px dashed #999;">
+        <!-- Libre Barcode 128 -->
+        <div id="out-barcode-font" style="font-family: 'Libre Barcode 128', monospace; font-size: 38px; line-height: 0.8; transform: scaleY(1.3); margin: 4px 0; display: inline-block;">
+          9158210340578602283082156847053215
+        </div>
+        <div id="out-barcode-text" style="font-size: 8px; letter-spacing: 1.5px; font-family: monospace;">(91)582103-405786022830-821568470532-1</div>
+      </div>
+      
+      <!-- Slip Details Layout -->
+      <div style="display: flex; flex-grow: 1;">
+        <!-- Customer Info side -->
+        <div style="width: 60%; border-right: 1px solid #000; padding: 4px 8px; display: flex; flex-direction: column;">
+          <div style="font-size: 8px; color: #555;">払込人</div>
+          <div style="font-size: 9px; line-height: 1.3; margin-top: 2px;">
+            <span class="out-postal">〒491-0001</span><br>
+            <span class="out-address">愛知県一宮市瀬部兜4-2</span><br>
+            <span class="out-address-en" style="font-size: 6px; color: #666; display: block; margin-bottom: 1px;">4-2 Kabuto, Sebe, Ichinomiya City, Aichi Prefecture</span>
+            <span class="out-company" style="color: #444; font-size: 8.5px;">ダイキ・ファッション・サガ</span><br>
+            <span class="out-company-en" style="font-size: 6px; color: #666; display: block; margin-bottom: 2px;">Daiki Fashion Saga</span>
+          </div>
+          <div style="font-size: 13px; font-weight: 700; margin-top: 2px;">
+            <span class="out-name">高橋 大輝</span> <span style="font-size:9px; font-weight:normal;">様</span>
+            <div class="out-name-en" style="font-size: 7px; font-weight: normal; color: #555;">Daiki Takahashi</div>
+          </div>
+          
+          <div style="margin-top: auto;">
+            <div style="font-size: 7px; color: #444; margin-bottom: 2px;">【お取扱いコンビニエンスストア】</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 2px;">
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">セブン-イレブン</span>
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">ローソン</span>
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">ファミリーマート</span>
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">ミニストップ</span>
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">デイリーヤマザキ</span>
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">ポプラ</span>
+              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1px 2px; border-radius: 2px;">セイコーマート</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Amount & Payee side -->
+        <div style="width: 40%; padding: 4px 8px; display: flex; flex-direction: column; position: relative;">
+          <div style="border: 1px solid #000; background: #eee; text-align: center; font-size: 9px; padding: 2px;">
+            払込金額 (税込)
+          </div>
+          <div style="border: 1px solid #000; border-top: none; text-align: right; padding: 6px 5px; font-size: 15px; font-weight: 700; font-family: var(--font-serif); margin-bottom: 6px;">
+            <span style="float: left; font-weight: normal; font-size: 11px; margin-top: 2px;">¥</span>
+            <span class="amt-total">13,962</span>
+          </div>
+          
+          <div style="font-size: 8px; margin-bottom: 2px; color: #333;">払込先: 日本グローバルテレコム(株)</div>
+          <div style="font-size: 8px; margin-bottom: 2px; color: #333;">お客様番号: <span class="out-cust-num">0586-64-8302</span></div>
+          <div style="font-size: 8px; margin-bottom: 2px; font-weight: 700;">
+            支払期限: <span class="out-due-date" style="color: red;">令和8年8月31日</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<script>
+  function generateSafeNumber(length) {
+    let res = '';
+    let lastDigit = -1;
+    for(let i=0; i<length; i++) {
+      let d;
+      do {
+        d = Math.floor(Math.random() * 10);
+      } while (
+        d === lastDigit || 
+        (i > 0 && d === (lastDigit + 1) % 10) || 
+        (i > 0 && d === (lastDigit - 1 + 10) % 10)
+      );
+      res += d;
+      lastDigit = d;
+    }
+    return res;
+  }
+
+  function randomizeData() {
+    // 1. Update text inputs (JA & EN)
+    const postal = document.getElementById('in-postal').value || '491-0001';
+    
+    const addrJa = document.getElementById('in-address').value || '愛知県一宮市瀬部兜4-2';
+    const addrEn = document.getElementById('in-address-en').value || '4-2 Kabuto, Sebe, Ichinomiya City, Aichi Prefecture';
+    
+    const compJa = document.getElementById('in-company').value || 'ダイキ・ファッション・サガ';
+    const compEn = document.getElementById('in-company-en').value || 'Daiki Fashion Saga';
+    
+    const nameJa = document.getElementById('in-name').value || '高橋 大輝';
+    const nameEn = document.getElementById('in-name-en').value || 'Daiki Takahashi';
+    
+    document.querySelectorAll('.out-postal').forEach(e => e.innerText = '〒' + postal);
+    
+    document.querySelectorAll('.out-address').forEach(e => e.innerText = addrJa);
+    document.querySelectorAll('.out-address-en').forEach(e => e.innerText = addrEn);
+    
+    document.querySelectorAll('.out-company').forEach(e => e.innerText = compJa);
+    document.querySelectorAll('.out-company-en').forEach(e => e.innerText = compEn);
+    
+    document.querySelectorAll('.out-name').forEach(e => e.innerText = nameJa);
+    document.querySelectorAll('.out-name-en').forEach(e => e.innerText = nameEn);
+
+    // 2. Billing Period Math and Japanese Calendar formatting
+    const billYear = parseInt(document.getElementById('in-year').value) || 2026;
+    const billMonth = parseInt(document.getElementById('in-month').value) || 7;
+    
+    // Reiwa conversion
+    const reiwaYear = billYear - 2018;
+    const reiwaYearStr = reiwaYear === 1 ? '元' : reiwaYear; 
+    
+    const billPeriod = `令和${reiwaYearStr}年${billMonth}月分 <span style="font-size: 9px; font-weight: normal; margin-left: 5px;">(${billYear}年${billMonth}月)</span>`;
+    const billPeriodShort = `令和${reiwaYearStr}年${billMonth}月分`;
+    const billMonthShort = `${billMonth}月分`;
+
+    // Next month logic for issue date and due date
+    let nextMonth = billMonth + 1;
+    let nextYear = billYear;
+    if(nextMonth > 12) {
+        nextMonth = 1;
+        nextYear++;
+    }
+    const nextReiwaYear = nextYear - 2018;
+    const nextReiwaYearStr = nextReiwaYear === 1 ? '元' : nextReiwaYear;
+
+    const issueDateStr = `※ 発行日：令和${nextReiwaYearStr}年${nextMonth}月12日`;
+    const lastDay = new Date(nextYear, nextMonth, 0).getDate();
+    const dueDateStr = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日`;
+
+    document.querySelectorAll('.out-bill-period').forEach(e => e.innerHTML = billPeriod);
+    document.querySelectorAll('.out-bill-period-short').forEach(e => e.innerText = billPeriodShort);
+    document.querySelectorAll('.out-bill-month-short').forEach(e => e.innerText = billMonthShort);
+    document.querySelectorAll('.out-issue-date').forEach(e => e.innerText = issueDateStr);
+    document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = dueDateStr; });
+
+    // 3. Mathematically correct randomized amounts
+    const amtInternet = Math.floor(Math.random() * 200 + 400) * 10;
+    const amtIsp = Math.floor(Math.random() * 100 + 80) * 10;
+    const amtRouter = Math.floor(Math.random() * 40 + 20) * 10;
+    const amtPhone = 500 + Math.floor(Math.random() * 2) * 50;
+    const amtMobile = Math.floor(Math.random() * 300 + 150) * 10;
+    const amtCallDom = Math.floor(Math.random() * 150 + 20) * 10;
+    const amtCallMob = Math.floor(Math.random() * 250 + 50) * 10;
+    const amtUniv = 2;
+    const amtRelay = 1;
+
+    const subtotal = amtInternet + amtIsp + amtRouter + amtPhone + amtMobile + amtCallDom + amtCallMob + amtUniv + amtRelay;
+    const tax = Math.floor(subtotal * 0.1);
+    const total = subtotal + tax;
+
+    const fmt = (num) => num.toLocaleString('en-US');
+
+    document.getElementById('amt-internet').innerText = fmt(amtInternet);
+    document.getElementById('amt-isp').innerText = fmt(amtIsp);
+    document.getElementById('amt-router').innerText = fmt(amtRouter);
+    document.getElementById('amt-phone').innerText = fmt(amtPhone);
+    document.getElementById('amt-mobile').innerText = fmt(amtMobile);
+    document.getElementById('amt-call-dom').innerText = fmt(amtCallDom);
+    document.getElementById('amt-call-mob').innerText = fmt(amtCallMob);
+    
+    document.querySelectorAll('.amt-subtotal').forEach(e => e.innerText = fmt(subtotal));
+    document.querySelectorAll('.amt-tax').forEach(e => e.innerText = fmt(tax));
+    document.querySelectorAll('.amt-total').forEach(e => e.innerText = fmt(total));
+
+    // 4. Randomize IDs dynamically to avoid AI detection sequences
+    const tNum = 'T' + generateSafeNumber(13);
+    document.getElementById('out-t-number').innerText = '適格請求書発行事業者登録番号：' + tNum;
+
+    const supportPhone = '0120-' + generateSafeNumber(3) + '-' + generateSafeNumber(4);
+    document.getElementById('out-support-phone').innerText = '【お客さまセンター】 ' + supportPhone;
+
+    const custNum = generateSafeNumber(4) + '-' + generateSafeNumber(2) + '-' + generateSafeNumber(4);
+    document.querySelectorAll('.out-cust-num').forEach(e => e.innerText = custNum);
+
+    // 5. Barcode logic
+    const bc1 = generateSafeNumber(6);
+    const bc2 = generateSafeNumber(12);
+    const bc3 = generateSafeNumber(12);
+    const bc4 = generateSafeNumber(1);
+    
+    document.getElementById('out-barcode-text').innerText = `(91)${bc1}-${bc2}-${bc3}-${bc4}`;
+    document.getElementById('out-barcode-font').innerText = `91${bc1}${bc2}${bc3}${bc4}`;
+  }
+</script>
+
+</body>
+</html>

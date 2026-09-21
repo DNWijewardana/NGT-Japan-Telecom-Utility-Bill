@@ -1,0 +1,37 @@
+  I'm now detailing prompts for various seal shapes. I've got one for an oval seal, which is less common. For a squa...
+  Here are 3 highly detailed AI image generation prompts for different shapes and styles of official Japanese
+  corporate red stamp seals. I have specifically engineered these to be highly realistic, suitable for document
+  overlays, and strictly without any dates.
+
+  ### 1. The Classic Corporate Square Seal (Kaku-in)
+
+  This is the standard, most recognized official company stamp used on Japanese invoices and receipts.
+
+  │ Prompt: A crisp, isolated top-down digital rendering of a traditional Japanese company square stamp (Kaku-in) on
+  a
+  │ pure flat white background. The stamp is perfectly square with thick red borders, densely filled with intricate,
+  │ stylized, ancient seal-script (Tensho-tai) Japanese kanji characters. Deep vermilion red ink color with a subtle
+  │ grunge, rubber-stamp texture showing slight imperfections, porous gaps, and faded spots for hyper-realism. There
+  │ are absolutely no dates or numbers included, only traditional characters. Flat layout, highly realistic physical
+  │ ink texture, perfect for document compositing.
+
+  ### 2. The Official Representative Circular Seal (Maru-in)
+  This style is typically used by the company president or for legally binding documents, featuring a distinct
+  double-ring design.
+
+  │ Prompt: A photorealistic top-down macro shot of a traditional Japanese corporate circular seal (Maru-in) stamped
+  │ onto a plain white textured matte document. The seal features a classic double-ring design: an outer ring
+  │ containing curved standard Japanese kanji for the company name, and an inner circle with stylized seal-script
+  │ characters for the executive role. Vivid vermilion (shuniku) red ink. The ink shows realistic uneven pressure,
+  │ organic ink bleeding into microscopic paper fibers, and slightly faded edges. No dates or numbers are included.
+  │ Bright, even studio lighting, ultra-detailed, highly authentic administrative aesthetic.
+  ### 3. The Departmental Oval Seal (Daen-in)
+
+  Often used for specific administrative approvals, branch offices, or departmental "checked/approved" marks.
+
+  │ Prompt: An isolated top-down view of a traditional Japanese elliptical/oval red ink stamp (Daen-in) impression on
+  │ a pristine white background. The stamp is vertically oriented, featuring an elegant, thick oval red border
+  │ encompassing bold, slightly distressed Japanese kanji characters representing an official corporate department
+  │ approval. Crisp, vibrant vermilion red ink color with realistic opacity variations, simulating authentic human
+  │ stamping pressure, subtle grunge textures, and microscopic ink pooling. No dates, numbers, or English letters.
+  │ Flat even lighting, high contrast, perfect for alpha-channel extraction.

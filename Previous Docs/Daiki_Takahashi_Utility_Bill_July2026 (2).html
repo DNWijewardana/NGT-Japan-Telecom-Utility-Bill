@@ -57,7 +57,7 @@
     font-family: sans-serif;
   }
   .control-panel label { display: block; margin-top: 8px; font-size: 11px; font-weight: bold; color: #333; }
-  .control-panel input, .control-panel textarea { width: 100%; padding: 6px; margin-top: 2px; border: 1px solid #aaa; border-radius: 3px; font-size: 12px; font-family: sans-serif; }
+  .control-panel input { width: 100%; padding: 6px; margin-top: 2px; border: 1px solid #aaa; border-radius: 3px; font-size: 12px; }
   .control-panel button { margin-top: 15px; width: 100%; padding: 10px; background: #003399; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 13px; }
   .control-panel button:hover { background: #001f5c; }
   
@@ -80,27 +80,25 @@
   <div style="font-size: 10px; color: #666; margin-bottom: 15px;">Generate dual-language KYC-compliant utility bill.</div>
   
   <label>郵便番号 (Postal Code)</label>
-  <input type="text" id="in-postal" value="491-0001">
+  <input type="text" id="in-postal" value="584-0005">
   
   <label>住所 (Address - JP)</label>
-  <input type="text" id="in-address-jp" value="愛知県一宮市瀬部兜4-2">
+  <input type="text" id="in-address-jp" value="大阪府富田林市喜志町4-10-3">
   
-  <label>Address (EN) - Multi-line</label>
-  <textarea id="in-address-en" rows="4">4-2 Kabuto, Sebe
-Ichinomiya City,
-Aichi Prefecture</textarea>
+  <label>Address (EN)</label>
+  <input type="text" id="in-address-en" value="4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan">
   
   <label>会社名/屋号 (Company - JP)</label>
-  <input type="text" id="in-company-jp" value="ダイキ・ファッション・サガ">
+  <input type="text" id="in-company-jp" value="松本ウォレット">
   
   <label>Company (EN)</label>
-  <input type="text" id="in-company-en" value="Daiki Fashion Saga">
+  <input type="text" id="in-company-en" value="Matsumoto Wallets">
   
   <label>氏名 (Name - JP)</label>
-  <input type="text" id="in-name-jp" value="高橋 大輝">
+  <input type="text" id="in-name-jp" value="松本 海斗">
 
   <label>Name (EN with Mr/Ms)</label>
-  <input type="text" id="in-name-en" value="Mr. Daiki Takahashi">
+  <input type="text" id="in-name-en" value="Mr. Kaito Matsumoto">
 
   <label>ご請求年月 (Billing Period)</label>
   <div style="display: flex; gap: 5px;">
@@ -116,25 +114,22 @@ Aichi Prefecture</textarea>
   <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
     <!-- Left Customer Address Block (Dual Language) -->
     <div style="width: 95mm; padding-top: 1mm;">
-      <div style="font-size: 9px; font-weight: 700; color: var(--primary); margin-bottom: 4px; border-bottom: 1px solid var(--primary); display: inline-block; padding-bottom: 1px; padding-right: 5px;">
-        【お客さま情報】
-      </div>
-      <div style="font-size: 11px; letter-spacing: 1px; margin-bottom: 2px;"><span class="out-postal">〒491-0001</span></div>
+      <div style="font-size: 14px; letter-spacing: 2px; margin-bottom: 2px;"><span class="out-postal">〒584-0005</span></div>
       
       <!-- Address -->
-      <div class="out-address-jp" style="font-size: 11px; line-height: 1.2; margin-bottom: 2px; font-weight: 700;">愛知県一宮市瀬部兜4-2</div>
-      <div class="out-address-en" style="font-size: 9px; line-height: 1.3; color: #444; margin-bottom: 4px; font-family: sans-serif;">4-2 Kabuto, Sebe<br>Ichinomiya City,<br>Aichi Prefecture</div>
+      <div class="out-address-jp" style="font-size: 11px; line-height: 1.2; font-weight: 700;">大阪府富田林市喜志町4-10-3</div>
+      <div class="out-address-en" style="font-size: 9px; line-height: 1.2; color: #444; margin-bottom: 4px; font-family: sans-serif;">4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan</div>
       
       <!-- Company -->
-      <div class="out-company-jp" style="font-size: 11px; font-weight: 700; color: #333;">ダイキ・ファッション・サガ</div>
-      <div class="out-company-en" style="font-size: 9px; color: #444; margin-bottom: 4px; font-family: sans-serif;">Daiki Fashion Saga</div>
+      <div class="out-company-jp" style="font-size: 11px; font-weight: 700; color: #333;">松本ウォレット</div>
+      <div class="out-company-en" style="font-size: 9px; color: #444; margin-bottom: 4px; font-family: sans-serif;">Matsumoto Wallets</div>
       
       <!-- Name -->
       <div style="border-bottom: 1px solid #000; padding-bottom: 3px; margin-top: 2px; display: inline-block; min-width: 90%;">
-        <div style="font-size: 13px; font-weight: 700;">
-          <span class="out-name-jp">高橋 大輝</span> <span style="font-size: 11px; margin-left: 5px; font-weight: normal;">様</span>
+        <div style="font-size: 15px; font-weight: 700;">
+          <span class="out-name-jp">松本 海斗</span> <span style="font-size: 11px; margin-left: 5px; font-weight: normal;">様</span>
         </div>
-        <div class="out-name-en" style="font-size: 10px; font-family: sans-serif; color: #222; font-weight: 700;">Mr. Daiki Takahashi</div>
+        <div class="out-name-en" style="font-size: 10px; font-family: sans-serif; color: #222; font-weight: 700;">Mr. Kaito Matsumoto</div>
       </div>
       
       <div style="font-size: 8.5px; color: var(--text-light); margin-top: 5px; line-height: 1.3;">
@@ -183,11 +178,11 @@ Aichi Prefecture</textarea>
         </tr>
         <tr>
           <th style="background: var(--secondary); border: 1px solid var(--border-color); padding: 4px; text-align: left; color: var(--primary);">お支払期限</th>
-          <td class="out-due-date" style="border: 1px solid var(--border-color); padding: 4px; text-align: center; color: #d32f2f; font-weight: 700; font-size: 13px;">令和8年8月31日 (2026年8月31日)</td>
+          <td class="out-due-date" style="border: 1px solid var(--border-color); padding: 4px; text-align: center; color: #d32f2f; font-weight: 700; font-size: 13px;">令和8年8月31日</td>
         </tr>
       </table>
       <div class="out-issue-date" style="font-size: 9px; color: var(--text-light); margin-top: 3px; text-align: right;">
-        ※ 発行日：令和8年8月12日 (2026年8月12日)
+        ※ 発行日：令和8年8月12日
       </div>
     </div>
     
@@ -283,7 +278,7 @@ Aichi Prefecture</textarea>
   </div>
   
   <!-- NOTICES -->
-  <div style="border: 1px solid #ccc; padding: 6px 10px; font-size: 9px; line-height: 1.4; color: #333; margin-bottom: 8px; margin-top: 20px;">
+  <div style="border: 1px solid #ccc; padding: 6px 10px; font-size: 9px; line-height: 1.4; color: #333; margin-bottom: 8px;">
     <strong>【お客さまへのお知らせ】</strong><br>
     ・本ご案内は、適格請求書（インボイス）としてご利用いただけます。消費税の仕入税額控除の適用を受けるために必要となりますので、大切に保管してください。<br>
     ・お支払期限を過ぎてお支払いがない場合、年14.5%の延滞利息を加算させていただくことがあります。
@@ -313,11 +308,11 @@ Aichi Prefecture</textarea>
         </div>
         <div style="margin-bottom: 4px;">
           <div style="font-size: 8px; color: #555;">ご請求年月</div>
-          <div class="out-bill-period-short" style="font-size: 11px; text-align: right; border-bottom: 1px dotted #999;">令和8年7月分 (2026年)</div>
+          <div class="out-bill-period-short" style="font-size: 11px; text-align: right; border-bottom: 1px dotted #999;">令和8年7月分</div>
         </div>
         <div style="margin-bottom: 4px;">
           <div style="font-size: 8px; color: #555;">お支払期限</div>
-          <div class="out-due-date" style="font-size: 11px; text-align: right; border-bottom: 1px dotted #999;">令和8年8月31日 (2026年8月31日)</div>
+          <div class="out-due-date" style="font-size: 11px; text-align: right; border-bottom: 1px dotted #999;">令和8年8月31日</div>
         </div>
         
         <div style="margin-top: 4px; border-bottom: 2px solid #000; padding-bottom: 3px;">
@@ -354,17 +349,17 @@ Aichi Prefecture</textarea>
       <div style="display: flex; flex-grow: 1;">
         <!-- Customer Info side (Dual Language) -->
         <div style="width: 58%; border-right: 1px solid #000; padding: 4px 6px; display: flex; flex-direction: column;">
-          <div style="font-size: 7.5px; color: #555; font-weight: 700; border-bottom: 1px solid #ccc; display: inline-block; margin-bottom: 3px;">払込人 (Customer Details)</div>
-          <div style="font-size: 9px; line-height: 1.2; margin-top: 1px;">
-            <span class="out-postal">〒491-0001</span><br>
-            <span class="out-address-jp" style="font-weight: 700;">愛知県一宮市瀬部兜4-2</span><br>
-            <span class="out-address-en" style="font-size: 6.5px; color: #444; font-family: sans-serif; line-height: 1.2; display: inline-block; margin-top: 1px;">4-2 Kabuto, Sebe<br>Ichinomiya City,<br>Aichi Prefecture</span><br>
-            <span class="out-company-jp" style="color: #333; font-size: 8.5px; display: block; margin-top: 2px; font-weight: 700;">ダイキ・ファッション・サガ</span>
-            <span class="out-company-en" style="color: #444; font-size: 6px; display: block; font-family: sans-serif;">Daiki Fashion Saga</span>
+          <div style="font-size: 7px; color: #555;">払込人</div>
+          <div style="font-size: 9px; line-height: 1.2; margin-top: 2px;">
+            <span class="out-postal">〒584-0005</span><br>
+            <span class="out-address-jp" style="font-weight: 700;">大阪府富田林市喜志町4-10-3</span><br>
+            <span class="out-address-en" style="font-size: 6px; color: #444; font-family: sans-serif;">4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan</span><br>
+            <span class="out-company-jp" style="color: #333; font-size: 8.5px; display: block; margin-top: 2px; font-weight: 700;">松本ウォレット</span>
+            <span class="out-company-en" style="color: #444; font-size: 6px; display: block; font-family: sans-serif;">Matsumoto Wallets</span>
           </div>
           <div style="font-size: 12px; font-weight: 700; margin-top: 3px;">
-            <span class="out-name-jp">高橋 大輝</span> <span style="font-size:8px; font-weight:normal;">様</span><br>
-            <span class="out-name-en" style="font-size: 7px; font-weight: 700; color:#333; font-family: sans-serif;">Mr. Daiki Takahashi</span>
+            <span class="out-name-jp">松本 海斗</span> <span style="font-size:8px; font-weight:normal;">様</span><br>
+            <span class="out-name-en" style="font-size: 7px; font-weight: 700; color:#333; font-family: sans-serif;">Mr. Kaito Matsumoto</span>
           </div>
           
           <div style="margin-top: auto;">
@@ -392,7 +387,7 @@ Aichi Prefecture</textarea>
           <div style="font-size: 8px; margin-bottom: 3px; color: #333;">払込先: NTT西日本 (料金回収係)</div>
           <div style="font-size: 8px; margin-bottom: 3px; color: #333;">お客様番号: <span class="out-cust-num">4952-15-2704</span></div>
           <div style="font-size: 8px; margin-bottom: 3px; font-weight: 700;">
-            支払期限: <span class="out-due-date" style="color: red;">令和8年8月31日 (2026年8月31日)</span>
+            支払期限: <span class="out-due-date" style="color: red;">令和8年8月31日</span>
           </div>
         </div>
       </div>
@@ -429,38 +424,32 @@ Aichi Prefecture</textarea>
 
   function randomizeData() {
     // 1. Text Fields (Dual Language Updates)
-    const postal = document.getElementById('in-postal').value || '491-0001';
+    const postal = document.getElementById('in-postal').value || '584-0005';
     
-    const addrJp = document.getElementById('in-address-jp').value || '愛知県一宮市瀬部兜4-2';
+    const addrJp = document.getElementById('in-address-jp').value || '大阪府富田林市喜志町4-10-3';
+    const addrEn = document.getElementById('in-address-en').value || '4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan';
     
-    // Support multi-line English address
-    const addrEn = document.getElementById('in-address-en').value || '4-2 Kabuto, Sebe\nIchinomiya City,\nAichi Prefecture';
-    const addrEnHtml = addrEn.replace(/\n/g, '<br>');
+    const compJp = document.getElementById('in-company-jp').value || '松本ウォレット';
+    const compEn = document.getElementById('in-company-en').value || 'Matsumoto Wallets';
     
-    const compJp = document.getElementById('in-company-jp').value || 'ダイキ・ファッション・サガ';
-    const compEn = document.getElementById('in-company-en').value || 'Daiki Fashion Saga';
-    
-    const nameJp = document.getElementById('in-name-jp').value || '高橋 大輝';
-    const nameEn = document.getElementById('in-name-en').value || 'Mr. Daiki Takahashi';
+    const nameJp = document.getElementById('in-name-jp').value || '松本 海斗';
+    const nameEn = document.getElementById('in-name-en').value || 'Mr. Kaito Matsumoto';
     
     document.querySelectorAll('.out-postal').forEach(e => e.innerText = '〒' + postal);
     document.querySelectorAll('.out-address-jp').forEach(e => e.innerText = addrJp);
-    
-    // Inject multi-line HTML
-    document.querySelectorAll('.out-address-en').forEach(e => e.innerHTML = addrEnHtml);
-    
+    document.querySelectorAll('.out-address-en').forEach(e => e.innerText = addrEn);
     document.querySelectorAll('.out-company-jp').forEach(e => e.innerText = compJp);
     document.querySelectorAll('.out-company-en').forEach(e => e.innerText = compEn);
     document.querySelectorAll('.out-name-jp').forEach(e => e.innerText = nameJp);
     document.querySelectorAll('.out-name-en').forEach(e => e.innerText = nameEn);
 
-    // 2. Japanese Dates with Gregorian
+    // 2. Japanese Dates
     const billYear = parseInt(document.getElementById('in-year').value) || 2026;
     const billMonth = parseInt(document.getElementById('in-month').value) || 7;
     const reiwaYearStr = (billYear - 2018 === 1) ? '元' : (billYear - 2018); 
     
     document.querySelectorAll('.out-bill-period').forEach(e => e.innerHTML = `令和${reiwaYearStr}年${billMonth}月分 <span style="font-size: 9px; font-weight: normal; margin-left: 5px;">(${billYear}年${billMonth}月)</span>`);
-    document.querySelectorAll('.out-bill-period-short').forEach(e => e.innerText = `令和${reiwaYearStr}年${billMonth}月分 (${billYear}年)`);
+    document.querySelectorAll('.out-bill-period-short').forEach(e => e.innerText = `令和${reiwaYearStr}年${billMonth}月分`);
     document.querySelectorAll('.out-bill-month-short').forEach(e => e.innerText = `${billMonth}月分`);
 
     // Next month Due Date
@@ -470,8 +459,8 @@ Aichi Prefecture</textarea>
     const nextReiwaYearStr = (nextYear - 2018 === 1) ? '元' : (nextYear - 2018);
     const lastDay = new Date(nextYear, nextMonth, 0).getDate();
     
-    document.querySelectorAll('.out-issue-date').forEach(e => e.innerText = `※ 発行日：令和${nextReiwaYearStr}年${nextMonth}月12日 (${nextYear}年${nextMonth}月12日)`);
-    document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日 (${nextYear}年${nextMonth}月${lastDay}日)`; });
+    document.querySelectorAll('.out-issue-date').forEach(e => e.innerText = `※ 発行日：令和${nextReiwaYearStr}年${nextMonth}月12日`);
+    document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日`; });
 
     // 3. Mathematical Subtotals (NTT items)
     const amtInternet = Math.floor(Math.random() * 20 + 45) * 110; 

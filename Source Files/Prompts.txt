@@ -1,0 +1,36 @@
+
+I want you to act as an expert in Financial Management, Invoice Generationg, Utility Bill creating, UI/ux designing.
+  and You are a world-class UI UX Designer and documents designer. I want you to create a Japan Internet/phone Utility
+  Bill. Need a realistic utility bill in japan. I need that document for 2026 July Month. Include all the necessary
+  information/Details without missing anything. The document should be a one-page A4-size printable document.  I need
+  the document for the following information. The bill should be a sole propertier's company internet bill and comes to
+  the rentors name. """Daiki Fashion Saga
+  Full name: Daiki Takahashi
+  First Name: Daiki 大輝
+  Last Name: Takahashi 高橋
+
+  Address Line 1: 4-2 Kabuto, Sebe
+  City: Ichinomiya City
+  Postal Code: 4910001
+  Province: Aichi Prefecture
+  """. Do not make a simple invoice or utility biill. I need a complicated, highly realistic document. And do not use
+  common ai patterns like common ai cards, tables, etc... .  Generate the document. Do not make any mistakes. Make sure
+  everything is perfect.
+
+
+
+Now I need you to add the realistic data for this document as a random normal cpmpany's realistic data. Fill all
+  without missing anything. I need more reduce height of about 10mm. Reduce the font sizes or paddings or spacings from
+  suitable places and make
+    that change. And do not use the ai detection numbering like 123, 567, 987, 111 like this. Now change those and Make
+  sure everything is perfect. Do not make any mistakkes.
+
+
+
+Great. Now I need a separate feature for randomize details with a form to change the key details And other needed
+  informations should ranomize with randomize button. When I click the randomize button, Everything should be
+  randomize matching to the person's address and other provided details. Amounts/numberings and others should be
+  randomize everytime (Must mathamatically correct and, not detected as ai generated.) and all other realistic thype
+  details.  THe randomize engine should be mathamatically correct and not the ai generated patten like 123, 6789, 876,
+  111 like this. Make sure everything is perfect. Do not make any mistakes.
+─────────────────────────────────────────────────────────────────────────────
