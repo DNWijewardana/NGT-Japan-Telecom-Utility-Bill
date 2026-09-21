@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #003399; /* NTT Corporate Blue */
+    --primary: #003399;
     --secondary: #eef4f9;
     --text-main: #222;
     --text-light: #555;
@@ -28,9 +28,9 @@
   }
   .page {
     width: 210mm;
-    height: 297mm; /* Strictly A4 height */
+    height: 297mm;
     background: white;
-    padding: 6mm 12mm; /* Tightened padding to fit dual-language perfectly */
+    padding: 6mm 12mm;
     font-family: var(--font-main);
     color: var(--text-main);
     position: relative;
@@ -45,7 +45,7 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 320px;
+    width: 360px;
     max-height: 90vh;
     overflow-y: auto;
     background: #f9f9f9;
@@ -56,11 +56,19 @@
     z-index: 1000;
     font-family: sans-serif;
   }
-  .control-panel label { display: block; margin-top: 8px; font-size: 11px; font-weight: bold; color: #333; }
-  .control-panel input, .control-panel textarea { width: 100%; padding: 6px; margin-top: 2px; border: 1px solid #aaa; border-radius: 3px; font-size: 12px; font-family: sans-serif; }
+  .control-panel label { display: block; margin-top: 10px; font-size: 11px; font-weight: bold; color: #333; }
+  .control-panel .col-headers { display: flex; justify-content: space-between; font-size: 9px; color: #666; margin-bottom: 2px; margin-top: 8px; padding-right: 2px; }
+  .control-panel .input-group { display: flex; gap: 4px; align-items: flex-start; }
+  .control-panel .input-group > input[type="text"], 
+  .control-panel .input-group > textarea { flex-grow: 1; padding: 6px; border: 1px solid #aaa; border-radius: 3px; font-size: 12px; font-family: sans-serif; }
+  .control-panel .input-group .fs-inputs { display: flex; flex-direction: column; gap: 4px; }
+  .control-panel .input-group input[type="number"] { width: 50px; padding: 4px; text-align: center; border: 1px solid #aaa; border-radius: 3px; font-size: 11px; }
+  
   .control-panel button { margin-top: 15px; width: 100%; padding: 10px; background: #003399; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 13px; }
   .control-panel button:hover { background: #001f5c; }
   
+  .hidden { display: none !important; }
+
   @media print {
     body { background: white; padding: 0; margin: 0; display: block; }
     .page { box-shadow: none; width: 100%; height: 100%; padding: 6mm 10mm; margin: 0; overflow: hidden; }
@@ -77,35 +85,83 @@
 <!-- CONTROL PANEL -->
 <div class="no-print control-panel">
   <h3 style="margin-top:0; margin-bottom: 5px; color: var(--primary); font-size: 15px;">Document Settings</h3>
-  <div style="font-size: 10px; color: #666; margin-bottom: 15px;">Generate dual-language KYC-compliant utility bill.</div>
+  <div style="font-size: 10px; color: #666; margin-bottom: 15px;">Generate dual-language KYC-compliant utility bill. Leave fields blank to remove them entirely.</div>
   
-  <label>郵便番号 (Postal Code)</label>
-  <input type="text" id="in-postal" value="491-0001">
+  <div class="col-headers">
+    <span style="flex-grow:1;">Text Value</span>
+    <span style="width: 50px; text-align:center;" title="Main Header Font Size">Main(px)</span>
+    <span style="width: 50px; text-align:center;" title="Payment Slip Font Size">Slip(px)</span>
+  </div>
+
+  <label style="margin-top: 0;">郵便番号 (Postal Code)</label>
+  <div class="input-group">
+    <input type="text" id="in-postal" value="965-6892">
+    <div class="fs-inputs">
+      <input type="number" id="fs-postal-main" value="14" step="0.5">
+      <input type="number" id="fs-postal-slip" value="9" step="0.5">
+    </div>
+  </div>
   
   <label>住所 (Address - JP)</label>
-  <input type="text" id="in-address-jp" value="愛知県一宮市瀬部兜4-2">
+  <div class="input-group">
+    <input type="text" id="in-address-jp" value="香川県渡辺市西区宮沢町若松3-10-6">
+    <div class="fs-inputs">
+      <input type="number" id="fs-addrjp-main" value="11" step="0.5">
+      <input type="number" id="fs-addrjp-slip" value="9" step="0.5">
+    </div>
+  </div>
   
   <label>Address (EN) - Multi-line</label>
-  <textarea id="in-address-en" rows="4">4-2 Kabuto, Sebe
-Ichinomiya City,
-Aichi Prefecture</textarea>
+  <div class="input-group">
+    <textarea id="in-address-en" rows="3">3-10-6 Wakamatsu, Miyazawa-cho,
+Nishi Ward, Watanabe City,
+965-6892 Japan</textarea>
+    <div class="fs-inputs">
+      <input type="number" id="fs-addren-main" value="9" step="0.5">
+      <input type="number" id="fs-addren-slip" value="6.5" step="0.5">
+    </div>
+  </div>
   
   <label>会社名/屋号 (Company - JP)</label>
-  <input type="text" id="in-company-jp" value="ダイキ・ファッション・サガ">
+  <div class="input-group">
+    <input type="text" id="in-company-jp" value="">
+    <div class="fs-inputs">
+      <input type="number" id="fs-compjp-main" value="11" step="0.5">
+      <input type="number" id="fs-compjp-slip" value="8.5" step="0.5">
+    </div>
+  </div>
   
   <label>Company (EN)</label>
-  <input type="text" id="in-company-en" value="Daiki Fashion Saga">
+  <div class="input-group">
+    <input type="text" id="in-company-en" value="">
+    <div class="fs-inputs">
+      <input type="number" id="fs-compen-main" value="9" step="0.5">
+      <input type="number" id="fs-compen-slip" value="6" step="0.5">
+    </div>
+  </div>
   
   <label>氏名 (Name - JP)</label>
-  <input type="text" id="in-name-jp" value="高橋 大輝">
+  <div class="input-group">
+    <input type="text" id="in-name-jp" value="村山 結衣">
+    <div class="fs-inputs">
+      <input type="number" id="fs-namejp-main" value="15" step="0.5">
+      <input type="number" id="fs-namejp-slip" value="12" step="0.5">
+    </div>
+  </div>
 
   <label>Name (EN with Mr/Ms)</label>
-  <input type="text" id="in-name-en" value="Mr. Daiki Takahashi">
+  <div class="input-group">
+    <input type="text" id="in-name-en" value="">
+    <div class="fs-inputs">
+      <input type="number" id="fs-nameen-main" value="10" step="0.5">
+      <input type="number" id="fs-nameen-slip" value="7" step="0.5">
+    </div>
+  </div>
 
   <label>ご請求年月 (Billing Period)</label>
   <div style="display: flex; gap: 5px;">
-    <input type="number" id="in-year" value="2026" style="width: 60%;" placeholder="Year">
-    <input type="number" id="in-month" value="7" min="1" max="12" style="width: 40%;" placeholder="Month">
+    <input type="number" id="in-year" value="2026" style="width: 60%; padding: 6px;" placeholder="Year">
+    <input type="number" id="in-month" value="7" min="1" max="12" style="width: 40%; padding: 6px;" placeholder="Month">
   </div>
   
   <button onclick="randomizeData()">Update & Generate Document</button>
@@ -117,24 +173,24 @@ Aichi Prefecture</textarea>
     <!-- Left Customer Address Block (Dual Language) -->
     <div style="width: 95mm; padding-top: 1mm;">
       <div style="font-size: 9px; font-weight: 700; color: var(--primary); margin-bottom: 4px; border-bottom: 1px solid var(--primary); display: inline-block; padding-bottom: 1px; padding-right: 5px;">
-        【お客さま情報】
+        【お客さま情報】 Customer Details
       </div>
-      <div style="font-size: 11px; letter-spacing: 1px; margin-bottom: 2px;"><span class="out-postal">〒491-0001</span></div>
+      <div style="margin-bottom: 2px;"><span class="out-postal" style="font-size: 14px; letter-spacing: 2px;">〒965-6892</span></div>
       
       <!-- Address -->
-      <div class="out-address-jp" style="font-size: 11px; line-height: 1.2; margin-bottom: 2px; font-weight: 700;">愛知県一宮市瀬部兜4-2</div>
-      <div class="out-address-en" style="font-size: 9px; line-height: 1.3; color: #444; margin-bottom: 4px; font-family: sans-serif;">4-2 Kabuto, Sebe<br>Ichinomiya City,<br>Aichi Prefecture</div>
+      <div class="out-address-jp" style="font-size: 11px; line-height: 1.2; font-weight: 700;">香川県渡辺市西区宮沢町若松3-10-6</div>
+      <div class="out-address-en" style="font-size: 9px; line-height: 1.3; color: #444; margin-bottom: 4px; font-family: sans-serif;">3-10-6 Wakamatsu, Miyazawa-cho,<br>Nishi Ward, Watanabe City,<br>965-6892 Japan</div>
       
       <!-- Company -->
-      <div class="out-company-jp" style="font-size: 11px; font-weight: 700; color: #333;">ダイキ・ファッション・サガ</div>
-      <div class="out-company-en" style="font-size: 9px; color: #444; margin-bottom: 4px; font-family: sans-serif;">Daiki Fashion Saga</div>
+      <div class="out-company-jp hidden" style="font-size: 11px; font-weight: 700; color: #333;"></div>
+      <div class="out-company-en hidden" style="font-size: 9px; color: #444; margin-bottom: 4px; font-family: sans-serif;"></div>
       
       <!-- Name -->
       <div style="border-bottom: 1px solid #000; padding-bottom: 3px; margin-top: 2px; display: inline-block; min-width: 90%;">
-        <div style="font-size: 13px; font-weight: 700;">
-          <span class="out-name-jp">高橋 大輝</span> <span style="font-size: 11px; margin-left: 5px; font-weight: normal;">様</span>
+        <div style="font-weight: 700;">
+          <span class="out-name-jp" style="font-size: 15px;">村山 結衣</span> <span class="out-sama" style="font-size: 11px; margin-left: 5px; font-weight: normal;">様</span>
         </div>
-        <div class="out-name-en" style="font-size: 10px; font-family: sans-serif; color: #222; font-weight: 700;">Mr. Daiki Takahashi</div>
+        <div class="out-name-en hidden" style="font-size: 10px; font-family: sans-serif; color: #222; font-weight: 700;"></div>
       </div>
       
       <div style="font-size: 8.5px; color: var(--text-light); margin-top: 5px; line-height: 1.3;">
@@ -283,7 +339,7 @@ Aichi Prefecture</textarea>
   </div>
   
   <!-- NOTICES -->
-  <div style="border: 1px solid #ccc; padding: 6px 10px; font-size: 9px; line-height: 1.4; color: #333; margin-bottom: 8px; margin-top: 20px;">
+  <div style="border: 1px solid #ccc; padding: 6px 10px; font-size: 9px; line-height: 1.4; color: #333; margin-bottom: 8px;">
     <strong>【お客さまへのお知らせ】</strong><br>
     ・本ご案内は、適格請求書（インボイス）としてご利用いただけます。消費税の仕入税額控除の適用を受けるために必要となりますので、大切に保管してください。<br>
     ・お支払期限を過ぎてお支払いがない場合、年14.5%の延滞利息を加算させていただくことがあります。
@@ -355,16 +411,16 @@ Aichi Prefecture</textarea>
         <!-- Customer Info side (Dual Language) -->
         <div style="width: 58%; border-right: 1px solid #000; padding: 4px 6px; display: flex; flex-direction: column;">
           <div style="font-size: 7.5px; color: #555; font-weight: 700; border-bottom: 1px solid #ccc; display: inline-block; margin-bottom: 3px;">払込人 (Customer Details)</div>
-          <div style="font-size: 9px; line-height: 1.2; margin-top: 1px;">
-            <span class="out-postal">〒491-0001</span><br>
-            <span class="out-address-jp" style="font-weight: 700;">愛知県一宮市瀬部兜4-2</span><br>
-            <span class="out-address-en" style="font-size: 6.5px; color: #444; font-family: sans-serif; line-height: 1.2; display: inline-block; margin-top: 1px;">4-2 Kabuto, Sebe<br>Ichinomiya City,<br>Aichi Prefecture</span><br>
-            <span class="out-company-jp" style="color: #333; font-size: 8.5px; display: block; margin-top: 2px; font-weight: 700;">ダイキ・ファッション・サガ</span>
-            <span class="out-company-en" style="color: #444; font-size: 6px; display: block; font-family: sans-serif;">Daiki Fashion Saga</span>
+          <div style="line-height: 1.2; margin-top: 1px;">
+            <span class="out-postal" style="font-size: 9px;">〒965-6892</span><br>
+            <span class="out-address-jp" style="font-size: 9px; font-weight: 700;">香川県渡辺市西区宮沢町若松3-10-6</span><br>
+            <span class="out-address-en" style="font-size: 6.5px; color: #444; font-family: sans-serif; line-height: 1.2; display: inline-block; margin-top: 1px;">3-10-6 Wakamatsu, Miyazawa-cho,<br>Nishi Ward, Watanabe City,<br>965-6892 Japan</span><br>
+            <span class="out-company-jp hidden" style="color: #333; font-size: 8.5px; display: block; margin-top: 2px; font-weight: 700;"></span>
+            <span class="out-company-en hidden" style="color: #444; font-size: 6px; display: block; font-family: sans-serif;"></span>
           </div>
-          <div style="font-size: 12px; font-weight: 700; margin-top: 3px;">
-            <span class="out-name-jp">高橋 大輝</span> <span style="font-size:8px; font-weight:normal;">様</span><br>
-            <span class="out-name-en" style="font-size: 7px; font-weight: 700; color:#333; font-family: sans-serif;">Mr. Daiki Takahashi</span>
+          <div style="font-weight: 700; margin-top: 3px;">
+            <span class="out-name-jp" style="font-size: 12px;">村山 結衣</span> <span class="out-sama" style="font-size:8px; font-weight:normal;">様</span><br>
+            <span class="out-name-en hidden" style="font-size: 7px; font-weight: 700; color:#333; font-family: sans-serif;"></span>
           </div>
           
           <div style="margin-top: auto;">
@@ -402,7 +458,6 @@ Aichi Prefecture</textarea>
 </div>
 
 <script>
-  // Math random logic
   function generateSafeNumber(length) {
     let res = '';
     let lastDigit = -1;
@@ -416,7 +471,6 @@ Aichi Prefecture</textarea>
     return res;
   }
 
-  // Standard GS1 Modulus 10 calculation logic
   function calculateGS1CheckDigit(code43) {
     let sum = 0;
     for (let i = code43.length - 1, isOddPosition = true; i >= 0; i--, isOddPosition = !isOddPosition) {
@@ -428,31 +482,61 @@ Aichi Prefecture</textarea>
   }
 
   function randomizeData() {
-    // 1. Text Fields (Dual Language Updates)
-    const postal = document.getElementById('in-postal').value || '491-0001';
-    
-    const addrJp = document.getElementById('in-address-jp').value || '愛知県一宮市瀬部兜4-2';
-    
-    // Support multi-line English address
-    const addrEn = document.getElementById('in-address-en').value || '4-2 Kabuto, Sebe\nIchinomiya City,\nAichi Prefecture';
+    // 1. Text Fields (Strict exact reading, no fallbacks)
+    const postal = document.getElementById('in-postal').value;
+    const addrJp = document.getElementById('in-address-jp').value;
+    const addrEn = document.getElementById('in-address-en').value;
     const addrEnHtml = addrEn.replace(/\n/g, '<br>');
+    const compJp = document.getElementById('in-company-jp').value;
+    const compEn = document.getElementById('in-company-en').value;
+    const nameJp = document.getElementById('in-name-jp').value;
+    const nameEn = document.getElementById('in-name-en').value;
     
-    const compJp = document.getElementById('in-company-jp').value || 'ダイキ・ファッション・サガ';
-    const compEn = document.getElementById('in-company-en').value || 'Daiki Fashion Saga';
+    // Toggle hidden classes dynamically based on blank content
+    const toggleHidden = (selector, val) => {
+      document.querySelectorAll(selector).forEach(e => {
+        if(val.trim() === '') e.classList.add('hidden');
+        else e.classList.remove('hidden');
+      });
+    };
+
+    document.querySelectorAll('.out-postal').forEach(e => e.innerText = postal.trim() ? '〒' + postal : '');
     
-    const nameJp = document.getElementById('in-name-jp').value || '高橋 大輝';
-    const nameEn = document.getElementById('in-name-en').value || 'Mr. Daiki Takahashi';
-    
-    document.querySelectorAll('.out-postal').forEach(e => e.innerText = '〒' + postal);
     document.querySelectorAll('.out-address-jp').forEach(e => e.innerText = addrJp);
+    toggleHidden('.out-address-jp', addrJp);
     
-    // Inject multi-line HTML
     document.querySelectorAll('.out-address-en').forEach(e => e.innerHTML = addrEnHtml);
+    toggleHidden('.out-address-en', addrEn);
     
     document.querySelectorAll('.out-company-jp').forEach(e => e.innerText = compJp);
+    toggleHidden('.out-company-jp', compJp);
+    
     document.querySelectorAll('.out-company-en').forEach(e => e.innerText = compEn);
+    toggleHidden('.out-company-en', compEn);
+    
     document.querySelectorAll('.out-name-jp').forEach(e => e.innerText = nameJp);
+    // Hide the '様' suffix if name is completely empty
+    document.querySelectorAll('.out-sama').forEach(e => { e.style.display = nameJp.trim() ? 'inline' : 'none'; });
+    
     document.querySelectorAll('.out-name-en').forEach(e => e.innerText = nameEn);
+    toggleHidden('.out-name-en', nameEn);
+
+    // Font Sizing Logic
+    const applySize = (idClass, mainId, slipId) => {
+        const els = document.querySelectorAll(idClass);
+        const mainVal = document.getElementById(mainId).value;
+        const slipVal = document.getElementById(slipId).value;
+        if(els[0] && mainVal) els[0].style.fontSize = mainVal + 'px';
+        if(els[1] && slipVal) els[1].style.fontSize = slipVal + 'px';
+    };
+
+    applySize('.out-postal', 'fs-postal-main', 'fs-postal-slip');
+    applySize('.out-address-jp', 'fs-addrjp-main', 'fs-addrjp-slip');
+    applySize('.out-address-en', 'fs-addren-main', 'fs-addren-slip');
+    applySize('.out-company-jp', 'fs-compjp-main', 'fs-compjp-slip');
+    applySize('.out-company-en', 'fs-compen-main', 'fs-compen-slip');
+    applySize('.out-name-jp', 'fs-namejp-main', 'fs-namejp-slip');
+    applySize('.out-name-en', 'fs-nameen-main', 'fs-nameen-slip');
 
     // 2. Japanese Dates with Gregorian
     const billYear = parseInt(document.getElementById('in-year').value) || 2026;
@@ -463,7 +547,6 @@ Aichi Prefecture</textarea>
     document.querySelectorAll('.out-bill-period-short').forEach(e => e.innerText = `令和${reiwaYearStr}年${billMonth}月分 (${billYear}年)`);
     document.querySelectorAll('.out-bill-month-short').forEach(e => e.innerText = `${billMonth}月分`);
 
-    // Next month Due Date
     let nextMonth = billMonth + 1;
     let nextYear = billYear;
     if(nextMonth > 12) { nextMonth = 1; nextYear++; }
