@@ -449,7 +449,7 @@
     const reiwaYearStr = (billYear - 2018 === 1) ? '元' : (billYear - 2018); 
     
     document.querySelectorAll('.out-bill-period').forEach(e => e.innerHTML = `令和${reiwaYearStr}年${billMonth}月分 <span style="font-size: 9px; font-weight: normal; margin-left: 5px;">(${billYear}年${billMonth}月)</span>`);
-    document.querySelectorAll('.out-bill-period-short').forEach(e => e.innerText = `令和${reiwaYearStr}年${billMonth}月分`);
+    document.querySelectorAll('.out-bill-period-short').forEach(e => e.innerText = `令和${reiwaYearStr}年${billMonth}月分 (${billYear}年)`);
     document.querySelectorAll('.out-bill-month-short').forEach(e => e.innerText = `${billMonth}月分`);
 
     // Next month Due Date
@@ -459,8 +459,8 @@
     const nextReiwaYearStr = (nextYear - 2018 === 1) ? '元' : (nextYear - 2018);
     const lastDay = new Date(nextYear, nextMonth, 0).getDate();
     
-    document.querySelectorAll('.out-issue-date').forEach(e => e.innerText = `※ 発行日：令和${nextReiwaYearStr}年${nextMonth}月12日`);
-    document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日`; });
+    document.querySelectorAll('.out-issue-date').forEach(e => e.innerText = `※ 発行日：令和${nextReiwaYearStr}年${nextMonth}月12日 (${nextYear}年${nextMonth}月12日)`);
+    document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日 (${nextYear}年${nextMonth}月${lastDay}日)`; });
 
     // 3. Mathematical Subtotals (NTT items)
     const amtInternet = Math.floor(Math.random() * 20 + 45) * 110; 
