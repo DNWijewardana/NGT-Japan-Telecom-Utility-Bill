@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #003399; /* NTT Corporate Blue */
+    --primary: #003399;
     --primary-light: #e6f0fa;
     --secondary: #f4f7fa;
     --text-main: #222;
@@ -82,7 +82,7 @@
   .table-head { background: var(--secondary); font-weight: 700; color: var(--primary); text-align: center; padding: 3px; border: 1px solid var(--border-light); }
   
   /* Graph CSS */
-  .bar-container { display: flex; align-items: flex-end; justify-content: space-between; height: 40px; padding-top: 5px; margin-bottom: 2px; border-bottom: 1px solid #000; }
+  .bar-container { display: flex; align-items: flex-end; justify-content: space-between; height: 35px; padding-top: 5px; margin-bottom: 2px; border-bottom: 1px solid #000; }
   .bar { width: 12px; background: #0072BC; text-align: center; font-size: 6px; color: white; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 2px; border-radius: 1px 1px 0 0; }
   .month-labels { display: flex; justify-content: space-between; font-size: 7px; color: #555; }
   .month-label { width: 12px; text-align: center; }
@@ -260,7 +260,7 @@ Nishi Ward, Watanabe City,
         </div>
         <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff;">
           <span style="font-size: 14px; margin-right: 5px; margin-top: 3px; font-weight: 700;">¥</span>
-          <span class="amt-total" style="font-size: 26px; font-weight: 700; font-family: var(--font-serif); letter-spacing: 1px; color: #d32f2f;">14,564</span>
+          <span class="amt-total" style="font-size: 26px; font-weight: 700; font-family: var(--font-serif); letter-spacing: 1px; color: #d32f2f;">20,614</span>
         </div>
         <div style="display: flex; justify-content: space-between; padding: 1px 5px; font-size: 7.5px; color: var(--text-light); background: #fff;">
           <span>(消費税等込)</span>
@@ -275,11 +275,31 @@ Nishi Ward, Watanabe City,
     
     <!-- LEFT: Detailed Breakdown (Business Grade) -->
     <div style="width: 60%; display: flex; flex-direction: column;">
-      <div style="font-size: 10px; font-weight: 700; color: var(--primary); margin-bottom: 2px; display: flex; align-items: center; border-bottom: 1px solid var(--primary);">
-        <span style="display: inline-block; width: 4px; height: 10px; background: var(--primary); margin-right: 5px;"></span>
-        ご請求内訳詳細 (Itemized Billing)
+      
+      <!-- Previous Month Status Table -->
+      <div style="font-size: 9.5px; font-weight: 700; color: var(--primary); margin-bottom: 2px; display: flex; align-items: center; border-bottom: 1px solid var(--primary);">
+        <span style="display: inline-block; width: 4px; height: 9px; background: var(--primary); margin-right: 5px;"></span>
+        前月ご請求・お支払状況 (Previous Month Status)
       </div>
-      <table style="width: 100%; border-collapse: collapse; font-size: 8.5px;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 8px; margin-bottom: 6px;">
+        <tr style="background: var(--secondary); border-bottom: 1px solid var(--border-light);">
+          <th style="padding: 3px; text-align: left; width: 33%;">前月ご請求額</th>
+          <th style="padding: 3px; text-align: left; width: 33%;">前月お支払額</th>
+          <th style="padding: 3px; text-align: left; width: 33%;">差引繰越額</th>
+        </tr>
+        <tr>
+          <td style="padding: 3px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #ddd;">¥<span id="amt-prev-bill">19,500</span></td>
+          <td style="padding: 3px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #ddd; color: #2e7d32;">¥<span id="amt-prev-pay">-19,500</span></td>
+          <td style="padding: 3px; text-align: right; font-family: var(--font-serif); border-bottom: 1px dashed #ddd; font-weight: 700;">¥0</td>
+        </tr>
+      </table>
+
+      <!-- Itemized Breakdown -->
+      <div style="font-size: 9.5px; font-weight: 700; color: var(--primary); margin-bottom: 2px; display: flex; align-items: center; border-bottom: 1px solid var(--primary);">
+        <span style="display: inline-block; width: 4px; height: 9px; background: var(--primary); margin-right: 5px;"></span>
+        今回ご請求内訳詳細 (Itemized Billing)
+      </div>
+      <table style="width: 100%; border-collapse: collapse; font-size: 8px;">
         <thead>
           <tr style="background: var(--secondary); border-bottom: 1px solid var(--border-light);">
             <th style="padding: 3px; text-align: left; width: 55%;">ご利用項目</th>
@@ -289,7 +309,7 @@ Nishi Ward, Watanabe City,
         </thead>
         <tbody>
           <!-- Basic Internet -->
-          <tr><td colspan="3" style="padding: 4px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【フレッツ光サービス】</td></tr>
+          <tr><td colspan="3" style="padding: 3px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【フレッツ光サービス】</td></tr>
           <tr>
             <td class="table-row" style="padding-left: 10px;">フレッツ 光ネクスト ビジネスタイプ</td>
             <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
@@ -307,7 +327,7 @@ Nishi Ward, Watanabe City,
           </tr>
           
           <!-- Telephone -->
-          <tr><td colspan="3" style="padding: 4px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【ひかり電話オフィスタイプ】</td></tr>
+          <tr><td colspan="3" style="padding: 3px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【ひかり電話オフィスタイプ】</td></tr>
           <tr>
             <td class="table-row" style="padding-left: 10px;">基本料金 (3チャネル1番号)</td>
             <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
@@ -324,17 +344,30 @@ Nishi Ward, Watanabe City,
             <td id="amt-call-mobile" class="table-row" style="text-align: right; font-family: var(--font-serif);">1,250</td>
           </tr>
           
+          <!-- Options -->
+          <tr><td colspan="3" style="padding: 3px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【オプション・保守サービス】</td></tr>
+          <tr>
+            <td class="table-row" style="padding-left: 10px;">オフィスセキュリティパック利用料</td>
+            <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
+            <td id="amt-sec-pack" class="table-row" style="text-align: right; font-family: var(--font-serif);">1,650</td>
+          </tr>
+          <tr>
+            <td class="table-row" style="padding-left: 10px;">リモートサポートサービス (法人)</td>
+            <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
+            <td id="amt-remote" class="table-row" style="text-align: right; font-family: var(--font-serif);">550</td>
+          </tr>
+          <tr>
+            <td class="table-row" style="padding-left: 10px;">24時間出張修理オプション</td>
+            <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
+            <td id="amt-repair" class="table-row" style="text-align: right; font-family: var(--font-serif);">3,300</td>
+          </tr>
+
           <!-- Cloud / ISP / Other -->
-          <tr><td colspan="3" style="padding: 4px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【その他サービス・ISP】</td></tr>
+          <tr><td colspan="3" style="padding: 3px 2px 1px 2px; font-weight: 700; background: #fdfdfd; border-bottom: 1px solid #ddd;">【その他サービス・ISP】</td></tr>
           <tr>
             <td class="table-row" style="padding-left: 10px;">プロバイダ利用料 (Bizプラン)</td>
             <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
             <td id="amt-isp" class="table-row" style="text-align: right; font-family: var(--font-serif);">2,200</td>
-          </tr>
-          <tr>
-            <td class="table-row" style="padding-left: 10px;">機器レンタル料 (ルーター)</td>
-            <td class="table-row out-bill-month-short" style="text-align: center; color: var(--text-light);">7月分</td>
-            <td id="amt-equip" class="table-row" style="text-align: right; font-family: var(--font-serif);">330</td>
           </tr>
           <tr>
             <td class="table-row" style="padding-left: 10px;">ユニバーサルサービス料</td>
@@ -351,37 +384,55 @@ Nishi Ward, Watanabe City,
     </div>
 
     <!-- RIGHT: Graphs, Taxes, Info -->
-    <div style="width: 40%; display: flex; flex-direction: column; gap: 6px;">
+    <div style="width: 40%; display: flex; flex-direction: column; gap: 5px;">
       
+      <!-- Contract Details -->
+      <div style="border: 1px solid var(--border-light); border-radius: 3px; overflow: hidden;">
+        <div style="background: #eee; color: #333; font-size: 8.5px; font-weight: 700; padding: 2px 5px; border-bottom: 1px solid var(--border-light);">
+          ご契約情報 (Contract Details)
+        </div>
+        <div style="padding: 3px 5px; font-size: 7.5px; line-height: 1.5;">
+          <div style="display: flex; justify-content: space-between;"><span>契約種別:</span> <strong>法人・個人事業主 (Business)</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>お支払方法:</span> <strong>窓口払い (払込取扱票)</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>ご利用開始日:</span> <strong>2018年4月1日</strong></div>
+        </div>
+      </div>
+
       <!-- Invoice (Tax) Section -->
       <div style="border: 1px solid var(--border-light); border-radius: 3px; overflow: hidden;">
-        <div style="background: var(--primary-light); color: var(--primary); font-size: 9px; font-weight: 700; padding: 3px 5px; border-bottom: 1px solid var(--border-light);">
+        <div style="background: var(--primary-light); color: var(--primary); font-size: 8.5px; font-weight: 700; padding: 2px 5px; border-bottom: 1px solid var(--border-light);">
           適格請求書情報 (Invoice Data)
         </div>
-        <div style="padding: 4px; font-size: 8px;">
+        <div style="padding: 3px 5px; font-size: 7.5px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
             <span>登録番号:</span> <strong>T5120001074026</strong>
           </div>
-          <table style="width: 100%; border-collapse: collapse; font-size: 8.5px; margin-top: 3px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 8px; margin-top: 2px;">
             <tr style="border-bottom: 1px dotted #ccc;">
               <td style="padding: 2px 0;">小計 (税抜)</td>
-              <td class="amt-subtotal" style="text-align: right; font-weight: 700; font-family: var(--font-serif);">13,240</td>
+              <td class="amt-subtotal" style="text-align: right; font-weight: 700; font-family: var(--font-serif);">18,740</td>
             </tr>
             <tr style="border-bottom: 1px dotted #ccc;">
               <td style="padding: 2px 0;">消費税等 (10%)</td>
-              <td class="amt-tax" style="text-align: right; font-weight: 700; font-family: var(--font-serif);">1,324</td>
+              <td class="amt-tax" style="text-align: right; font-weight: 700; font-family: var(--font-serif);">1,874</td>
             </tr>
             <tr>
               <td style="padding: 2px 0; color: var(--primary); font-weight: 700;">合計 (税込)</td>
-              <td class="amt-total" style="text-align: right; font-weight: 700; font-family: var(--font-serif); color: var(--primary);">14,564</td>
+              <td class="amt-total" style="text-align: right; font-weight: 700; font-family: var(--font-serif); color: var(--primary);">20,614</td>
             </tr>
           </table>
         </div>
       </div>
 
+      <!-- Promo Box -->
+      <div style="border: 1px solid #81c784; background: #e8f5e9; border-radius: 3px; padding: 4px; font-size: 7.5px; line-height: 1.4; color: #2e7d32;">
+        <strong>【法人様向けセキュリティ対策について】</strong><br>
+        昨今、企業を狙ったサイバー攻撃が急増しています。弊社ではネットワークの出入り口で脅威をブロックする「UTM（統合脅威管理）」の導入を強く推奨しております。専門窓口にて無料相談受付中です。
+      </div>
+
       <!-- Graph Section -->
-      <div style="border: 1px solid #ccc; padding: 4px; border-radius: 3px; background: #fafafa;">
-        <div style="font-size: 8px; font-weight: 700; color: #444; margin-bottom: 2px; text-align: center;">過去6ヶ月のご利用料金推移</div>
+      <div style="border: 1px solid #ccc; padding: 3px; border-radius: 3px; background: #fafafa;">
+        <div style="font-size: 7.5px; font-weight: 700; color: #444; margin-bottom: 2px; text-align: center;">過去6ヶ月のご利用料金推移</div>
         <div class="bar-container">
           <div class="bar" style="height: 60%;"></div>
           <div class="bar" style="height: 75%;"></div>
@@ -400,14 +451,7 @@ Nishi Ward, Watanabe City,
         </div>
       </div>
 
-      <!-- Points & Notices -->
-      <div style="border: 1px solid #ccc; padding: 4px; border-radius: 3px; font-size: 8px; line-height: 1.3;">
-        <strong style="color: #f39c12;">CLUB NTT-West ポイント</strong><br>
-        現在の保有ポイント: <strong style="font-size: 10px;">1,250 P</strong><br>
-        <span style="color: #666; font-size: 7px;">※ポイントの有効期限にご注意ください。</span>
-      </div>
-
-      <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 4px; border-radius: 3px; font-size: 7.5px; line-height: 1.3; color: #856404; margin-top: auto;">
+      <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 4px; border-radius: 3px; font-size: 7px; line-height: 1.3; color: #856404; margin-top: auto;">
         <strong>【お支払いの注意】</strong><br>
         期日までにお支払いがない場合、翌月以降のサービス利用が停止される場合がございます。必ず期限内（コンビニエンスストア）にてお支払いをお願いいたします。
       </div>
@@ -416,10 +460,10 @@ Nishi Ward, Watanabe City,
   </div>
   
   <!-- PERFORATION LINE -->
-  <div style="position: relative; height: 7mm; display: flex; align-items: center; justify-content: center;">
+  <div style="position: relative; height: 6mm; display: flex; align-items: center; justify-content: center;">
     <div style="width: 100%; border-top: 1px dashed #666; position: relative;">
-      <div style="position: absolute; top: -6px; left: 30px; background: white; padding: 0 10px; font-size: 8px; color: #555;">
-        <span style="font-size: 10px; margin-right: 4px;">✂</span> キリトリ線（ここから切り取ってお出しください）
+      <div style="position: absolute; top: -5px; left: 30px; background: white; padding: 0 10px; font-size: 7.5px; color: #555;">
+        <span style="font-size: 9px; margin-right: 4px;">✂</span> キリトリ線（ここから切り取ってお出しください）
       </div>
     </div>
   </div>
@@ -448,7 +492,7 @@ Nishi Ward, Watanabe City,
         
         <div style="margin-top: 4px; border-bottom: 2px solid #000; padding-bottom: 3px;">
           <div style="font-size: 9px; font-weight: 700;">受領金額 (税込)</div>
-          <div style="font-size: 16px; font-weight: 700; text-align: right; font-family: var(--font-serif);"><span style="font-size: 12px; font-weight: normal; margin-top: 1px;">¥</span><span class="amt-total">14,564</span></div>
+          <div style="font-size: 16px; font-weight: 700; text-align: right; font-family: var(--font-serif);"><span style="font-size: 12px; font-weight: normal; margin-top: 1px;">¥</span><span class="amt-total">20,614</span></div>
         </div>
         
         <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end;">
@@ -469,10 +513,10 @@ Nishi Ward, Watanabe City,
       <!-- Barcode Box (Exact 44 Digits GS1-128 standard) -->
       <div style="text-align: center; padding: 3px 0; border-bottom: 1px dashed #999; overflow: hidden; white-space: nowrap;">
         <div id="out-barcode-font" style="font-family: 'Libre Barcode 128', monospace; font-size: 38px; line-height: 1; transform: scaleY(1.4); margin: 2px 0; display: inline-block;">
-          915901237359404691377262575204835026083100145645
+          915901237359404691377262575204835026083100206141
         </div>
         <div id="out-barcode-text" style="font-size: 8px; letter-spacing: 1.5px; font-family: monospace; transform: translateY(-2px);">
-          (91)590123-735940469137726257520-0-260831-0-014564-5
+          (91)590123-735940469137726257520-0-260831-0-020614-1
         </div>
       </div>
       
@@ -512,7 +556,7 @@ Nishi Ward, Watanabe City,
           </div>
           <div style="border: 1px solid #000; border-top: none; text-align: right; padding: 6px; font-size: 15px; font-weight: 700; font-family: var(--font-serif); margin-bottom: 8px;">
             <span style="float: left; font-weight: normal; font-size: 10px; margin-top: 2px;">¥</span>
-            <span class="amt-total">14,564</span>
+            <span class="amt-total">20,614</span>
           </div>
           
           <div style="font-size: 8px; margin-bottom: 3px; color: #333;">払込先: NTT西日本 (料金回収係)</div>
@@ -625,6 +669,12 @@ Nishi Ward, Watanabe City,
     document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日 (${nextYear}年${nextMonth}月${lastDay}日)`; });
 
     // 3. Mathematical Subtotals (Enhanced Business items)
+    const fmt = (num) => num.toLocaleString('en-US');
+    
+    const amtPrevBill = Math.floor(Math.random() * 50 + 150) * 100;
+    document.getElementById('amt-prev-bill').innerText = fmt(amtPrevBill);
+    document.getElementById('amt-prev-pay').innerText = "-" + fmt(amtPrevBill);
+
     const amtInternet = 9570; // Biz Hikari Next
     const amtFixedIP = 1100;
     const amtDiscount = -1100;
@@ -633,25 +683,31 @@ Nishi Ward, Watanabe City,
     const amtCallLocal = Math.floor(Math.random() * 50 + 50) * 10;
     const amtCallMobile = Math.floor(Math.random() * 100 + 50) * 10;
     
+    const amtSecPack = 1650;
+    const amtRemote = 550;
+    const amtRepair = 3300;
+
     const amtIsp = 2200; // Biz Plan
-    const amtEquip = 330;
     const amtUniv = 2;
     const amtRelay = 1;
 
-    const subtotal = amtInternet + amtFixedIP + amtDiscount + amtPhoneBasic + amtCallLocal + amtCallMobile + amtIsp + amtEquip + amtUniv + amtRelay;
+    const subtotal = amtInternet + amtFixedIP + amtDiscount + amtPhoneBasic + amtCallLocal + amtCallMobile + amtSecPack + amtRemote + amtRepair + amtIsp + amtUniv + amtRelay;
     const tax = Math.floor(subtotal * 0.1);
     const total = subtotal + tax;
-
-    const fmt = (num) => num.toLocaleString('en-US');
     
     document.getElementById('amt-internet').innerText = fmt(amtInternet);
     document.getElementById('amt-fixed-ip').innerText = fmt(amtFixedIP);
     document.getElementById('amt-discount').innerText = fmt(amtDiscount);
+    
     document.getElementById('amt-phone-basic').innerText = fmt(amtPhoneBasic);
     document.getElementById('amt-call-local').innerText = fmt(amtCallLocal);
     document.getElementById('amt-call-mobile').innerText = fmt(amtCallMobile);
+    
+    document.getElementById('amt-sec-pack').innerText = fmt(amtSecPack);
+    document.getElementById('amt-remote').innerText = fmt(amtRemote);
+    document.getElementById('amt-repair').innerText = fmt(amtRepair);
+    
     document.getElementById('amt-isp').innerText = fmt(amtIsp);
-    document.getElementById('amt-equip').innerText = fmt(amtEquip);
     
     document.querySelectorAll('.amt-subtotal').forEach(e => e.innerText = fmt(subtotal));
     document.querySelectorAll('.amt-tax').forEach(e => e.innerText = fmt(tax));
