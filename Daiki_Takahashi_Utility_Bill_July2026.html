@@ -30,7 +30,7 @@
     width: 210mm;
     height: 297mm; /* Strictly A4 height */
     background: white;
-    padding: 8mm 15mm; /* Tightened padding to prevent overflow */
+    padding: 6mm 12mm; /* Tightened padding to fit dual-language perfectly */
     font-family: var(--font-main);
     color: var(--text-main);
     position: relative;
@@ -45,7 +45,7 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 300px;
+    width: 320px;
     max-height: 90vh;
     overflow-y: auto;
     background: #f9f9f9;
@@ -63,7 +63,7 @@
   
   @media print {
     body { background: white; padding: 0; margin: 0; display: block; }
-    .page { box-shadow: none; width: 100%; height: 100%; padding: 8mm 12mm; margin: 0; overflow: hidden; }
+    .page { box-shadow: none; width: 100%; height: 100%; padding: 6mm 10mm; margin: 0; overflow: hidden; }
     .no-print { display: none !important; }
     @page { size: A4 portrait; margin: 0; }
   }
@@ -77,19 +77,28 @@
 <!-- CONTROL PANEL -->
 <div class="no-print control-panel">
   <h3 style="margin-top:0; margin-bottom: 5px; color: var(--primary); font-size: 15px;">Document Settings</h3>
-  <div style="font-size: 10px; color: #666; margin-bottom: 15px;">Generate 100% authentic, KYC-compliant Japanese utility bill.</div>
+  <div style="font-size: 10px; color: #666; margin-bottom: 15px;">Generate dual-language KYC-compliant utility bill.</div>
   
   <label>郵便番号 (Postal Code)</label>
   <input type="text" id="in-postal" value="584-0005">
   
-  <label>住所 (Address)</label>
-  <input type="text" id="in-address" value="大阪府富田林市喜志町4-10-3">
+  <label>住所 (Address - JP)</label>
+  <input type="text" id="in-address-jp" value="大阪府富田林市喜志町4-10-3">
   
-  <label>会社名/屋号 (Company/Trade Name)</label>
-  <input type="text" id="in-company" value="松本ウォレット">
+  <label>Address (EN)</label>
+  <input type="text" id="in-address-en" value="4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan">
   
-  <label>氏名 (Customer Name)</label>
-  <input type="text" id="in-name" value="松本 海斗">
+  <label>会社名/屋号 (Company - JP)</label>
+  <input type="text" id="in-company-jp" value="松本ウォレット">
+  
+  <label>Company (EN)</label>
+  <input type="text" id="in-company-en" value="Matsumoto Wallets">
+  
+  <label>氏名 (Name - JP)</label>
+  <input type="text" id="in-name-jp" value="松本 海斗">
+
+  <label>Name (EN with Mr/Ms)</label>
+  <input type="text" id="in-name-en" value="Mr. Kaito Matsumoto">
 
   <label>ご請求年月 (Billing Period)</label>
   <div style="display: flex; gap: 5px;">
@@ -97,30 +106,40 @@
     <input type="number" id="in-month" value="7" min="1" max="12" style="width: 40%;" placeholder="Month">
   </div>
   
-  <button onclick="randomizeData()">Generate Authentic Data</button>
+  <button onclick="randomizeData()">Update & Generate Document</button>
 </div>
 
 <div class="page">
   <!-- HEADER -->
-  <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-    <!-- Left Customer Address Block -->
-    <div style="width: 90mm; padding-top: 2mm;">
-      <div class="out-postal" style="font-size: 14px; letter-spacing: 2px; margin-bottom: 2px;">〒584-0005</div>
-      <div class="out-address" style="font-size: 12px; line-height: 1.4; margin-bottom: 4px;">大阪府富田林市喜志町4-10-3</div>
-      <div class="out-company" style="font-size: 11px; margin-bottom: 4px; color: var(--text-light);">松本ウォレット</div>
-      <div style="font-size: 16px; font-weight: 700; border-bottom: 1px solid #000; padding-bottom: 2px; display: inline-block; min-width: 90%;">
-        <span class="out-name">松本 海斗</span> <span style="font-size: 12px; margin-left: 5px; font-weight: normal;">様</span>
+  <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+    <!-- Left Customer Address Block (Dual Language) -->
+    <div style="width: 95mm; padding-top: 1mm;">
+      <div style="font-size: 14px; letter-spacing: 2px; margin-bottom: 2px;"><span class="out-postal">〒584-0005</span></div>
+      
+      <!-- Address -->
+      <div class="out-address-jp" style="font-size: 11px; line-height: 1.2; font-weight: 700;">大阪府富田林市喜志町4-10-3</div>
+      <div class="out-address-en" style="font-size: 9px; line-height: 1.2; color: #444; margin-bottom: 4px; font-family: sans-serif;">4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan</div>
+      
+      <!-- Company -->
+      <div class="out-company-jp" style="font-size: 11px; font-weight: 700; color: #333;">松本ウォレット</div>
+      <div class="out-company-en" style="font-size: 9px; color: #444; margin-bottom: 4px; font-family: sans-serif;">Matsumoto Wallets</div>
+      
+      <!-- Name -->
+      <div style="border-bottom: 1px solid #000; padding-bottom: 3px; margin-top: 2px; display: inline-block; min-width: 90%;">
+        <div style="font-size: 15px; font-weight: 700;">
+          <span class="out-name-jp">松本 海斗</span> <span style="font-size: 11px; margin-left: 5px; font-weight: normal;">様</span>
+        </div>
+        <div class="out-name-en" style="font-size: 10px; font-family: sans-serif; color: #222; font-weight: 700;">Mr. Kaito Matsumoto</div>
       </div>
-      <div style="font-size: 9px; color: var(--text-light); margin-top: 6px; line-height: 1.4;">
-        いつも弊社サービスをご利用いただき誠にありがとうございます。<br>
-        下記の通りご請求申し上げます。
+      
+      <div style="font-size: 8.5px; color: var(--text-light); margin-top: 5px; line-height: 1.3;">
+        いつも弊社サービスをご利用いただき誠にありがとうございます。<br>下記の通りご請求申し上げます。
       </div>
     </div>
     
     <!-- Right Company Info (NTT West Style) -->
-    <div style="width: 95mm; text-align: right;">
+    <div style="width: 90mm; text-align: right;">
       <div style="margin-bottom: 3px; display: flex; justify-content: flex-end; align-items: center;">
-        <!-- NTT-style text logo -->
         <div style="display: inline-block; margin-bottom: 2px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 98.47" height="24"><path d="M64.125 9.664a34.235 34.235 0 0 0-12.375 2.264 33.159 33.159 0 0 0-12.375-2.264C18.993 9.664 0 28.905 0 56.07s23.426 52.065 51.75 52.065 52.875-22.77 52.875-52.065c0-27.164-18.728-46.406-39.375-46.406ZM51.75 25.51c3.971 2.4 10.125 9.254 10.125 16.978S57.309 52.674 51.75 52.674s-9-4.594-9-10.187 5.029-14.58 9-16.977Zm0 70.174c-21.441 0-38.25-17.244-38.25-39.614s14.493-34.488 25.875-33.956a31.062 31.062 0 0 0-9 21.505c0 13.316 9.728 21.505 21.375 21.505s22.5-8.456 22.5-21.505-3.441-16.179-9-21.505c11.382-.533 25.875 13.449 25.875 33.955S73.191 95.684 51.75 95.684ZM178.875 32.3h45v10.188H207v40.746h-11.25V42.488h-16.875Zm48.375 10.188h16.875v40.746h11.25V42.488h16.875V32.3h-45Zm-63 21.505v6.791c0 .533-.86.866-1.125 1.132-.265 0 .265-.6 0-1.132 0-.533-16.147-31.026-18-33.955-2.118-3.462-4.831-5.659-10.125-5.659s-10.125 2.13-10.125 13.581v38.483h11.25V44.751c0-.533-.265-.866 0-1.132.265 0 1.125.6 1.125 1.132s14.824 28.03 18 32.824c2.118 3.462 4.831 6.791 10.125 6.791S175.5 82.235 175.5 70.784V32.3h-11.25Zm218.25-30.56h-32.625a5.4 5.4 0 0 0-5.625 5.659v38.483c0 3.2 2.184 6.791 5.625 6.791H382.5c3.177 0 5.625-3.329 5.625-6.791V39.092a5.4 5.4 0 0 0-5.625-5.659Zm-1.125 43.01H351V61.729h30.375Zm0-21.505H351V40.224h30.375ZM283.5 37.96h15.75v7.923h-10.125c-2.382 0-4.5 1-4.5 3.4v30.56c0 2.4 2.118 3.4 4.5 3.4h41.625c2.382 0 3.375-1 3.375-3.4V49.279c0-2.4-.993-3.4-3.375-3.4h-12.375V37.96h16.875V32.3H283.5v5.66Zm15.75 13.582c0 5.859-2.846 10.586-7.875 12.45v-12.45Zm19.125 0h9v12.45h-6.75a2.826 2.826 0 0 1-2.25-2.264ZM306 37.96h5.625v7.923H306Zm0 13.582h6.75v12.45c0 3.2 1.588 5.659 4.5 5.659h10.125v7.923h-36v-6.79c5.559-2.131 13.831-5.926 14.625-19.242Zm144-5.659h-20.25c4.235 7.723 9.662 14.381 20.25 22.637v9.055c-6.088-4.261-18.066-14.581-23.625-26.032v15.845h11.25v6.791h-11.25v10.187h-6.75V74.179H409.5v-6.791h10.125V51.542c-5.559 11.452-16.676 21.771-22.5 26.032V68.52c10.853-8.256 16.015-14.914 20.25-22.637h-20.25v-6.791h22.5v-9.055h6.75v9.055H450v6.791Z" style="fill:#0072BC;fill-rule:evenodd" transform="translate(0 -9.664)"/></svg>
         </div>
@@ -184,7 +203,7 @@
     </div>
   </div>
   
-  <!-- DETAILS BREAKDOWN (FLEX GROW TO PUSH SLIP TO BOTTOM) -->
+  <!-- DETAILS BREAKDOWN -->
   <div style="flex-grow: 1; margin-bottom: 8px;">
     <div style="font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 4px; display: flex; align-items: center;">
       <span style="display: inline-block; width: 4px; height: 11px; background: var(--primary); margin-right: 5px;"></span>
@@ -274,8 +293,8 @@
     </div>
   </div>
   
-  <!-- PAYMENT SLIP (Fixed strict height for real-world scaling) -->
-  <div style="display: flex; justify-content: space-between; height: 64mm; flex-shrink: 0;">
+  <!-- PAYMENT SLIP -->
+  <div style="display: flex; justify-content: space-between; height: 62mm; flex-shrink: 0;">
     
     <!-- LEFT: Receipt -->
     <div style="width: 58mm; border: 1px solid #000; box-sizing: border-box; display: flex; flex-direction: column;">
@@ -283,15 +302,15 @@
         払込受領証 (お客さま控)
       </div>
       <div style="padding: 6px; flex-grow: 1; display: flex; flex-direction: column;">
-        <div style="margin-bottom: 6px;">
+        <div style="margin-bottom: 4px;">
           <div style="font-size: 8px; color: #555;">お客様番号</div>
           <div class="out-cust-num" style="font-size: 11px; font-weight: 700; text-align: right; border-bottom: 1px dotted #999;">4952-15-2704</div>
         </div>
-        <div style="margin-bottom: 6px;">
+        <div style="margin-bottom: 4px;">
           <div style="font-size: 8px; color: #555;">ご請求年月</div>
           <div class="out-bill-period-short" style="font-size: 11px; text-align: right; border-bottom: 1px dotted #999;">令和8年7月分</div>
         </div>
-        <div style="margin-bottom: 8px;">
+        <div style="margin-bottom: 4px;">
           <div style="font-size: 8px; color: #555;">お支払期限</div>
           <div class="out-due-date" style="font-size: 11px; text-align: right; border-bottom: 1px dotted #999;">令和8年8月31日</div>
         </div>
@@ -317,13 +336,10 @@
       </div>
       
       <!-- Barcode Box (Exact 44 Digits GS1-128 standard) -->
-      <!-- Fixed barcode width overflow issue by reducing font size and wrapping logic -->
-      <div style="text-align: center; padding: 4px 0; border-bottom: 1px dashed #999; overflow: hidden; white-space: nowrap;">
-        <!-- Libre Barcode 128 rendering visual pseudo-barcode -->
+      <div style="text-align: center; padding: 3px 0; border-bottom: 1px dashed #999; overflow: hidden; white-space: nowrap;">
         <div id="out-barcode-font" style="font-family: 'Libre Barcode 128', monospace; font-size: 38px; line-height: 1; transform: scaleY(1.4); margin: 2px 0; display: inline-block;">
           915901237359404691377262575204835026083100109264
         </div>
-        <!-- True 44-digit formatted GS1 string below barcode -->
         <div id="out-barcode-text" style="font-size: 8px; letter-spacing: 1.5px; font-family: monospace; transform: translateY(-2px);">
           (91)590123-735940469137726257520-0-260831-0-010926-4
         </div>
@@ -331,37 +347,40 @@
       
       <!-- Slip Details Layout -->
       <div style="display: flex; flex-grow: 1;">
-        <!-- Customer Info side -->
-        <div style="width: 55%; border-right: 1px solid #000; padding: 5px 8px; display: flex; flex-direction: column;">
-          <div style="font-size: 8px; color: #555;">払込人</div>
-          <div style="font-size: 9px; line-height: 1.35; margin-top: 3px;">
+        <!-- Customer Info side (Dual Language) -->
+        <div style="width: 58%; border-right: 1px solid #000; padding: 4px 6px; display: flex; flex-direction: column;">
+          <div style="font-size: 7px; color: #555;">払込人</div>
+          <div style="font-size: 9px; line-height: 1.2; margin-top: 2px;">
             <span class="out-postal">〒584-0005</span><br>
-            <span class="out-address">大阪府富田林市喜志町4-10-3</span><br>
-            <span class="out-company" style="color: #333; font-size: 8.5px; display: block; margin-top: 2px;">松本ウォレット</span>
+            <span class="out-address-jp" style="font-weight: 700;">大阪府富田林市喜志町4-10-3</span><br>
+            <span class="out-address-en" style="font-size: 6px; color: #444; font-family: sans-serif;">4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan</span><br>
+            <span class="out-company-jp" style="color: #333; font-size: 8.5px; display: block; margin-top: 2px; font-weight: 700;">松本ウォレット</span>
+            <span class="out-company-en" style="color: #444; font-size: 6px; display: block; font-family: sans-serif;">Matsumoto Wallets</span>
           </div>
-          <div style="font-size: 13px; font-weight: 700; margin-top: 3px;">
-            <span class="out-name">松本 海斗</span> <span style="font-size:9px; font-weight:normal;">様</span>
+          <div style="font-size: 12px; font-weight: 700; margin-top: 3px;">
+            <span class="out-name-jp">松本 海斗</span> <span style="font-size:8px; font-weight:normal;">様</span><br>
+            <span class="out-name-en" style="font-size: 7px; font-weight: 700; color:#333; font-family: sans-serif;">Mr. Kaito Matsumoto</span>
           </div>
           
           <div style="margin-top: auto;">
-            <div style="font-size: 7px; color: #444; margin-bottom: 3px;">【お取扱いコンビニエンスストア】</div>
+            <div style="font-size: 6.5px; color: #444; margin-bottom: 2px;">【お取扱いコンビニエンスストア】</div>
             <div style="display: flex; flex-wrap: wrap; gap: 2px;">
-              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1.5px 2px; border-radius: 2px;">セブン-イレブン</span>
-              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1.5px 2px; border-radius: 2px;">ローソン</span>
-              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1.5px 2px; border-radius: 2px;">ファミリーマート</span>
-              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1.5px 2px; border-radius: 2px;">ミニストップ</span>
-              <span style="border: 1px solid #ccc; font-size: 6px; padding: 1.5px 2px; border-radius: 2px;">デイリーヤマザキ</span>
+              <span style="border: 1px solid #ccc; font-size: 5.5px; padding: 1.5px 2px; border-radius: 2px;">セブン-イレブン</span>
+              <span style="border: 1px solid #ccc; font-size: 5.5px; padding: 1.5px 2px; border-radius: 2px;">ローソン</span>
+              <span style="border: 1px solid #ccc; font-size: 5.5px; padding: 1.5px 2px; border-radius: 2px;">ファミリーマート</span>
+              <span style="border: 1px solid #ccc; font-size: 5.5px; padding: 1.5px 2px; border-radius: 2px;">ミニストップ</span>
+              <span style="border: 1px solid #ccc; font-size: 5.5px; padding: 1.5px 2px; border-radius: 2px;">デイリーヤマザキ</span>
             </div>
           </div>
         </div>
         
         <!-- Amount & Payee side -->
-        <div style="width: 45%; padding: 5px 8px; display: flex; flex-direction: column;">
+        <div style="width: 42%; padding: 4px 6px; display: flex; flex-direction: column;">
           <div style="border: 1px solid #000; background: #eee; text-align: center; font-size: 9px; padding: 3px;">
             払込金額 (税込)
           </div>
-          <div style="border: 1px solid #000; border-top: none; text-align: right; padding: 8px 6px; font-size: 16px; font-weight: 700; font-family: var(--font-serif); margin-bottom: 10px;">
-            <span style="float: left; font-weight: normal; font-size: 11px; margin-top: 2px;">¥</span>
+          <div style="border: 1px solid #000; border-top: none; text-align: right; padding: 6px; font-size: 15px; font-weight: 700; font-family: var(--font-serif); margin-bottom: 8px;">
+            <span style="float: left; font-weight: normal; font-size: 10px; margin-top: 2px;">¥</span>
             <span class="amt-total">10,926</span>
           </div>
           
@@ -395,8 +414,6 @@
   // Standard GS1 Modulus 10 calculation logic
   function calculateGS1CheckDigit(code43) {
     let sum = 0;
-    // Iterate from right to left (idx 42 down to 0)
-    // Rightmost digit (pos 1) is multiplied by 3, next by 1, next by 3...
     for (let i = code43.length - 1, isOddPosition = true; i >= 0; i--, isOddPosition = !isOddPosition) {
         let digit = parseInt(code43.charAt(i), 10);
         sum += digit * (isOddPosition ? 3 : 1);
@@ -406,16 +423,25 @@
   }
 
   function randomizeData() {
-    // 1. Text Fields
+    // 1. Text Fields (Dual Language Updates)
     const postal = document.getElementById('in-postal').value || '584-0005';
-    const addr = document.getElementById('in-address').value || '大阪府富田林市喜志町4-10-3';
-    const comp = document.getElementById('in-company').value || '松本ウォレット';
-    const name = document.getElementById('in-name').value || '松本 海斗';
+    
+    const addrJp = document.getElementById('in-address-jp').value || '大阪府富田林市喜志町4-10-3';
+    const addrEn = document.getElementById('in-address-en').value || '4-10-3 Kishi-cho, Tondabayashi City, Osaka, Japan';
+    
+    const compJp = document.getElementById('in-company-jp').value || '松本ウォレット';
+    const compEn = document.getElementById('in-company-en').value || 'Matsumoto Wallets';
+    
+    const nameJp = document.getElementById('in-name-jp').value || '松本 海斗';
+    const nameEn = document.getElementById('in-name-en').value || 'Mr. Kaito Matsumoto';
     
     document.querySelectorAll('.out-postal').forEach(e => e.innerText = '〒' + postal);
-    document.querySelectorAll('.out-address').forEach(e => e.innerText = addr);
-    document.querySelectorAll('.out-company').forEach(e => e.innerText = comp);
-    document.querySelectorAll('.out-name').forEach(e => e.innerText = name);
+    document.querySelectorAll('.out-address-jp').forEach(e => e.innerText = addrJp);
+    document.querySelectorAll('.out-address-en').forEach(e => e.innerText = addrEn);
+    document.querySelectorAll('.out-company-jp').forEach(e => e.innerText = compJp);
+    document.querySelectorAll('.out-company-en').forEach(e => e.innerText = compEn);
+    document.querySelectorAll('.out-name-jp').forEach(e => e.innerText = nameJp);
+    document.querySelectorAll('.out-name-en').forEach(e => e.innerText = nameEn);
 
     // 2. Japanese Dates
     const billYear = parseInt(document.getElementById('in-year').value) || 2026;
@@ -437,7 +463,7 @@
     document.querySelectorAll('.out-due-date').forEach(e => { e.innerText = `令和${nextReiwaYearStr}年${nextMonth}月${lastDay}日`; });
 
     // 3. Mathematical Subtotals (NTT items)
-    const amtInternet = Math.floor(Math.random() * 20 + 45) * 110; // ~4950 - 7150
+    const amtInternet = Math.floor(Math.random() * 20 + 45) * 110; 
     const amtWiring = 220;
     const amtPhone = 550;
     const amtCall = Math.floor(Math.random() * 100 + 20) * 10;
@@ -461,15 +487,13 @@
     document.querySelectorAll('.amt-total').forEach(e => e.innerText = fmt(total));
 
     // 4. Barcode logic: GS1-128 44-digit constraint
-    // AI (91) + CompCode (6) + Customer (21) + Reissue (1) + Date (6) + Stamp (1) + Amount (6) + Mod10 (1) = 44 digits
     const ai = "91";
     const compCode = "590123"; 
     
-    // Create random IDs
     const custBase = generateSafeNumber(4) + '-' + generateSafeNumber(2) + '-' + generateSafeNumber(4);
     document.querySelectorAll('.out-cust-num').forEach(e => e.innerText = custBase);
     
-    const custNumBarcode = custBase.replace(/-/g, '') + generateSafeNumber(11); // 10 + 11 = 21 digits
+    const custNumBarcode = custBase.replace(/-/g, '') + generateSafeNumber(11); // 21 digits
     const reissue = "0";
     const dueYY = String(nextYear).slice(-2);
     const dueMM = String(nextMonth).padStart(2, '0');
@@ -481,9 +505,7 @@
     const code43 = ai + compCode + custNumBarcode + reissue + dueDateStr + stamp + amtStr;
     const checkDigit = calculateGS1CheckDigit(code43);
 
-    // Formatted presentation under barcode
     const textFmt = `(91)${compCode}-${custNumBarcode}-${reissue}-${dueDateStr}-${stamp}-${amtStr}-${checkDigit}`;
-    // Raw code for barcode font rendering
     const rawFmt = code43 + checkDigit;
 
     document.getElementById('out-barcode-text').innerText = textFmt;
